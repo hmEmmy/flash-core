@@ -51,7 +51,7 @@ public class ProfileService implements IService {
         Logger.logInfo("Saved all profiles to the database.");
     }
 
-    /*
+    /**
      * Retrieves a profile from the map of profiles.
      *
      * @param uuid the UUID of the profile
