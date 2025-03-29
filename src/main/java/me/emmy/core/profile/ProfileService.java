@@ -17,15 +17,15 @@ import java.util.UUID;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 @Getter
 public class ProfileService implements IService {
     protected final Flash plugin;
-    public MongoCollection<Document> collection;
-    private Map<UUID, Profile> profiles;
-    private IProfileStorage profileStorage;
+    private final Map<UUID, Profile> profiles;
+    private final IProfileStorage profileStorage;
+    public final MongoCollection<Document> collection;
 
     /**
      * Constructor for the ProfileService class.
@@ -34,14 +34,14 @@ public class ProfileService implements IService {
      */
     public ProfileService(Flash plugin) {
         this.plugin = plugin;
+        this.profiles = new HashMap<>();
+        this.collection = plugin.getServiceRepository().getService(MongoService.class).getDatabase().getCollection("profiles");
+        this.profileStorage = new MongoProfileStorageImpl(this.plugin);
         this.initialize();
     }
 
     @Override
     public void initialize() {
-        this.collection = plugin.getServiceRepository().getService(MongoService.class).getDatabase().getCollection("profiles");
-        this.profiles = new HashMap<>();
-        this.profileStorage = new MongoProfileStorageImpl(this.plugin);
         this.plugin.getServer().getPluginManager().registerEvents(new ProfileListener(this), this.plugin);
     }
 

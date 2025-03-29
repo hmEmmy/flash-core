@@ -2,7 +2,7 @@ package me.emmy.core.database.redis.packet;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 public abstract class AbstractRedisPacket {

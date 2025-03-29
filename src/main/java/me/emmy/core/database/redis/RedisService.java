@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 public class RedisService implements IService {

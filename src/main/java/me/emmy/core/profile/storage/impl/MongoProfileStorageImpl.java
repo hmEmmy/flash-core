@@ -10,7 +10,7 @@ import org.bson.Document;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 public class MongoProfileStorageImpl implements IProfileStorage {

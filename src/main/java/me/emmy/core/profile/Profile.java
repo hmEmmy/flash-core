@@ -9,7 +9,7 @@ import java.util.UUID;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 @Getter

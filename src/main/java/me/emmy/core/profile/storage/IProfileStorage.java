@@ -4,7 +4,7 @@ import me.emmy.core.profile.Profile;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 public interface IProfileStorage {

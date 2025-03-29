@@ -2,6 +2,7 @@ package me.emmy.core.util;
 
 import lombok.experimental.UtilityClass;
 import me.emmy.core.Flash;
+import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.profile.ProfileService;
 import org.bukkit.Bukkit;
 
@@ -9,7 +10,7 @@ import java.util.Arrays;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 26/03/2025
  */
 @UtilityClass
@@ -29,7 +30,7 @@ public class Logger {
      * @param message the message to log
      */
     public void logInfo(String message) {
-        Bukkit.getConsoleSender().sendMessage(CC.translate("&f[&3" + Flash.getInstance().getDescription().getName() + "&f] &fInfo &8&l| &f" + message));
+        Bukkit.getConsoleSender().sendMessage(CC.translate("&f[&b" + Flash.getInstance().getDescription().getName() + "&f] &fInfo &8&l| &f" + message));
     }
 
     /**
@@ -38,7 +39,7 @@ public class Logger {
      * @param message the message to log
      */
     public void log(String message) {
-        Bukkit.getConsoleSender().sendMessage(CC.translate("&f[&3" + Flash.getInstance().getDescription().getName() + "&f] &8&l| &7" + message));
+        Bukkit.getConsoleSender().sendMessage(CC.translate("&f[&b" + Flash.getInstance().getDescription().getName() + "&f] &fLog &8&l| &7" + message));
     }
 
     /**
@@ -56,7 +57,7 @@ public class Logger {
                 " &7 * &bDescription: &f" + plugin.getDescription().getDescription(),
                 "",
                 " &7 * &bLoaded Profiles: &f" + plugin.getServiceRepository().getService(ProfileService.class).getProfiles().size(),
-                " &7 * &bRanks: &f" + "0",
+                " &7 * &bRanks: &f" + plugin.getServiceRepository().getService(RankService.class).getRanks().size(),
                 " &7 * &bTags: &f" + "0",
                 "",
                 " &7 * &bSpigot: &f" + plugin.getServer().getName(),

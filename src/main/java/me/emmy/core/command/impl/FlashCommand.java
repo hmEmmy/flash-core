@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 26/03/2025
  */
 public class FlashCommand extends BaseCommand {

@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 26/03/2025
  */
 @UtilityClass

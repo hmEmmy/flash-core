@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 26/03/2025
  */
 @Getter

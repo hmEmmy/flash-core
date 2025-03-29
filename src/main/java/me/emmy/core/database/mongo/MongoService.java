@@ -14,7 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 29/03/2025
  */
 @Getter

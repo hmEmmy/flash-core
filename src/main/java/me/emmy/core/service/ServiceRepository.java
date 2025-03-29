@@ -3,6 +3,12 @@ package me.emmy.core.service;
 import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
+import me.emmy.core.command.CommandService;
+import me.emmy.core.config.ConfigService;
+import me.emmy.core.database.mongo.MongoService;
+import me.emmy.core.database.redis.RedisService;
+import me.emmy.core.feature.rank.RankService;
+import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.Logger;
 
 import java.util.LinkedHashMap;
@@ -10,7 +16,7 @@ import java.util.Map;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 26/03/2025
  */
 @Getter
@@ -29,7 +35,12 @@ public class ServiceRepository {
     }
 
     public void close() {
-        this.services.values().forEach(IService::closure);
+        this.getService(ConfigService.class).closure();
+        this.getService(CommandService.class).closure();
+        this.getService(RedisService.class).closure();
+        this.getService(ProfileService.class).closure();
+        this.getService(RankService.class).closure();
+        this.getService(MongoService.class).closure();
     }
 
     /**

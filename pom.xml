@@ -10,7 +10,7 @@
 
     <name>Flash</name>
     <version>1.0-SNAPSHOT</version>
-    <description>A brand new, modern server core made from scratch</description>
+    <description>A brand new, modern server core</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -51,6 +51,18 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>cs-arcanearts</id>
+            <url>https://dl.cloudsmith.io/public/arcane/archive/maven/</url>
+        </repository>
+        <repository>
+            <id>minebench-repo</id>
+            <url>https://repo.minebench.de</url>
+        </repository>
+        <repository>
+            <id>enginehub-maven</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
         <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -98,6 +110,13 @@
             <artifactId>jedis</artifactId>
             <version>2.9.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.bukkit.craftbukkit/1.8.8 -->
+        <dependency>
+            <groupId>org.bukkit.craftbukkit</groupId>
+            <artifactId>1.8.8</artifactId>
+            <version>1.8.8</version>
         </dependency>
     </dependencies>
 </project>

@@ -2,7 +2,7 @@ package me.emmy.core.api.service;
 
 /**
  * @author Emmy
- * @project Flash
+ * @project Flash-Core
  * @since 26/03/2025
  */
 public interface IService {
