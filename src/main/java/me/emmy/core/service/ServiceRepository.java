@@ -28,8 +28,8 @@ public class ServiceRepository {
         this.services = new LinkedHashMap<>();
     }
 
-    public void runSaveMethods() {
-        this.services.values().forEach(IService::save);
+    public void close() {
+        this.services.values().forEach(IService::closure);
     }
 
     /**
@@ -48,7 +48,7 @@ public class ServiceRepository {
      * @param taskName the name of the task
      * @param service the service to register
      */
-    public void registerAndMeasureService(String taskName, IService service) {
+    public void registerService(String taskName, IService service) {
         long start = System.currentTimeMillis();
         this.services.put(service.getClass(), service);
         long end = System.currentTimeMillis();

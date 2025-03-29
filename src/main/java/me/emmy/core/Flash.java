@@ -33,14 +33,15 @@ public class Flash extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.serviceRepository.runSaveMethods();
+        this.serviceRepository.close();
     }
 
     private void initializeServices() {
-        this.serviceRepository.registerAndMeasureService(ConfigService.class.getSimpleName(), new ConfigService(this));
-        this.serviceRepository.registerAndMeasureService(CommandService.class.getSimpleName(), new CommandService());
-        this.serviceRepository.registerAndMeasureService(MongoService.class.getSimpleName(), new MongoService(this));
-        this.serviceRepository.registerAndMeasureService(RedisService.class.getSimpleName(), new RedisService(this));
-        this.serviceRepository.registerAndMeasureService(ProfileService.class.getSimpleName(), new ProfileService(this));
+        this.serviceRepository.registerService(ConfigService.class.getSimpleName(), new ConfigService(this));
+        this.serviceRepository.registerService(CommandService.class.getSimpleName(), new CommandService());
+        this.serviceRepository.registerService(MongoService.class.getSimpleName(), new MongoService(this));
+        this.serviceRepository.registerService(RedisService.class.getSimpleName(), new RedisService(this));
+        this.serviceRepository.registerService(ProfileService.class.getSimpleName(), new ProfileService(this));
+        this.serviceRepository.getService(ProfileService.class).loadProfiles();
     }
 }

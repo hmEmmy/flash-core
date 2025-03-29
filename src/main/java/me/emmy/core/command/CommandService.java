@@ -19,7 +19,7 @@ public class CommandService implements IService {
     }
 
     @Override
-    public void save() {
+    public void closure() {
 
     }
 }

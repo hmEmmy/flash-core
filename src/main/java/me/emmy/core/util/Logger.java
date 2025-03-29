@@ -2,6 +2,7 @@ package me.emmy.core.util;
 
 import lombok.experimental.UtilityClass;
 import me.emmy.core.Flash;
+import me.emmy.core.profile.ProfileService;
 import org.bukkit.Bukkit;
 
 import java.util.Arrays;
@@ -52,7 +53,9 @@ public class Logger {
                 "",
                 " &7 * &bAuthor: &f" + plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""),
                 " &7 * &bVersion: &f" + plugin.getDescription().getVersion(),
+                " &7 * &bDescription: &f" + plugin.getDescription().getDescription(),
                 "",
+                " &7 * &bLoaded Profiles: &f" + plugin.getServiceRepository().getService(ProfileService.class).getProfiles().size(),
                 " &7 * &bRanks: &f" + "0",
                 " &7 * &bTags: &f" + "0",
                 "",

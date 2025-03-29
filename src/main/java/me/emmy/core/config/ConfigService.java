@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,29 +55,23 @@ public class ConfigService implements IService {
         }
 
         for (String fileName : this.configFileNames) {
-            File file = new File(this.dataFolder, fileName);
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    Logger.logError("Failed to create " + fileName + " configuration file.");
-                }
+            File configFile = new File(this.plugin.getDataFolder(), fileName);
+            this.files.put(fileName, configFile);
+            if (!configFile.exists()) {
+                configFile.getParentFile().mkdirs();
+                this.plugin.saveResource(fileName, false);
             }
-            this.configs.put(fileName, YamlConfiguration.loadConfiguration(file));
-            this.files.put(fileName, file);
+
+            FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+            this.configs.put(fileName, config);
         }
     }
 
     @Override
-    public void save() {
-        for (Map.Entry<String, FileConfiguration> entry : this.configs.entrySet()) {
-            File file = new File(this.dataFolder, entry.getKey());
-            try {
-                entry.getValue().save(file);
-            } catch (IOException e) {
-                Logger.logError("Failed to save " + entry.getKey() + " configuration file.");
-            }
-        }
+    public void closure() {
+        this.configs.forEach((fileName, config) -> {
+                this.saveConfig(this.getConfigFile(fileName), config);
+        });
     }
 
     /**
@@ -102,17 +95,17 @@ public class ConfigService implements IService {
     }
 
     /**
-     * Save a configuration file by its name.
+     * Save a configuration file.
      *
-     * @param fileName the name of the configuration file
+     * @param configFile The file to save.
+     * @param fileConfiguration The configuration to save.
      */
-    public void saveConfig(String fileName) {
-        FileConfiguration config = this.getConfig(fileName);
-        File file = this.getConfigFile(fileName);
+    public void saveConfig(File configFile, FileConfiguration fileConfiguration) {
         try {
-            config.save(file);
-        } catch (IOException e) {
-            Logger.logError("Failed to save " + fileName + " configuration file.");
+            fileConfiguration.save(configFile);
+            fileConfiguration.load(configFile);
+        } catch (Exception e) {
+            Logger.logError("Error occurred while saving config: " + configFile.getName());
         }
     }
 }

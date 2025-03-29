@@ -7,5 +7,5 @@ package me.emmy.core.api.service;
  */
 public interface IService {
     void initialize();
-    void save();
+    void closure();
 }

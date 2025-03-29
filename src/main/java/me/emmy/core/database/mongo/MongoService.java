@@ -2,16 +2,14 @@ package me.emmy.core.database.mongo;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
-import com.mongodb.client.MongoClient;
 import me.emmy.core.config.ConfigService;
-import me.emmy.core.util.CC;
 import me.emmy.core.util.Logger;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -32,14 +30,15 @@ public class MongoService implements IService {
      */
     public MongoService(Flash plugin) {
         this.plugin = plugin;
+        this.initialize();
     }
 
     @Override
     public void initialize() {
         try {
             FileConfiguration config = Flash.getInstance().getServiceRepository().getService(ConfigService.class).getDatabaseConfig();
-            String uri = config.getString("database.mongo.uri", "mongodb://localhost:27017");
-            String databaseName = config.getString("database.mongo.database", "flash");
+            String uri = config.getString("database.mongo.uri");
+            String databaseName = config.getString("database.mongo.database");
 
             ConnectionString connectionString = new ConnectionString(uri);
             MongoClientSettings settings = MongoClientSettings.builder()
@@ -57,7 +56,11 @@ public class MongoService implements IService {
     }
 
     @Override
-    public void save() {
-
+    public void closure() {
+        if (this.client == null) {
+            return;
+        }
+        this.client.close();
+        Logger.logInfo("Successfully closed MongoDB connection.");
     }
 }

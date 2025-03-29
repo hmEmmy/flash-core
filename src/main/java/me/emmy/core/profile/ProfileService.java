@@ -5,8 +5,10 @@ import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.database.mongo.MongoService;
+import me.emmy.core.profile.listener.ProfileListener;
 import me.emmy.core.profile.storage.IProfileStorage;
 import me.emmy.core.profile.storage.impl.MongoProfileStorageImpl;
+import me.emmy.core.util.Logger;
 import org.bson.Document;
 
 import java.util.HashMap;
@@ -22,8 +24,8 @@ import java.util.UUID;
 public class ProfileService implements IService {
     protected final Flash plugin;
     public MongoCollection<Document> collection;
-    private final Map<UUID, Profile> profiles;
-    private final IProfileStorage profileStorage;
+    private Map<UUID, Profile> profiles;
+    private IProfileStorage profileStorage;
 
     /**
      * Constructor for the ProfileService class.
@@ -32,30 +34,21 @@ public class ProfileService implements IService {
      */
     public ProfileService(Flash plugin) {
         this.plugin = plugin;
-        this.collection = plugin.getServiceRepository().getService(MongoService.class).getDatabase().getCollection("profiles");
-        this.profiles = new HashMap<>();
-        this.profileStorage = new MongoProfileStorageImpl(this.plugin);
         this.initialize();
     }
 
     @Override
     public void initialize() {
-        this.loadProfiles();
+        this.collection = plugin.getServiceRepository().getService(MongoService.class).getDatabase().getCollection("profiles");
+        this.profiles = new HashMap<>();
+        this.profileStorage = new MongoProfileStorageImpl(this.plugin);
+        this.plugin.getServer().getPluginManager().registerEvents(new ProfileListener(this), this.plugin);
     }
 
     @Override
-    public void save() {
-
-    }
-
-    public void loadProfiles() {
-        for (Document document : this.collection.find()) {
-            UUID uuid = UUID.fromString(document.getString("uuid"));
-            Profile profile = new Profile(uuid);
-            profile.loadProfile();
-
-            this.profiles.put(uuid, profile);
-        }
+    public void closure() {
+        this.profiles.forEach((uuid, profile) -> profile.saveProfile());
+        Logger.logInfo("Saved all profiles to the database.");
     }
 
     /*
@@ -67,14 +60,22 @@ public class ProfileService implements IService {
     public Profile getProfile(UUID uuid) {
         return this.profiles.get(uuid);
     }
-
     /**
      * Adds a profile to the map of profiles.
      *
-     * @param uuid    the UUID of the profile
      * @param profile the profile
      */
-    public void addProfile(UUID uuid, Profile profile) {
-        this.profiles.put(uuid, profile);
+    public void addProfile(Profile profile) {
+        this.profiles.put(profile.getUuid(), profile);
+    }
+
+    public void loadProfiles() {
+        for (Document document : this.collection.find()) {
+            UUID uuid = UUID.fromString(document.getString("uuid"));
+            Profile profile = new Profile(uuid);
+            profile.loadProfile();
+
+            this.profiles.put(uuid, profile);
+        }
     }
 }

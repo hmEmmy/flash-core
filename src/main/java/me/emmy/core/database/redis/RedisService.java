@@ -38,11 +38,11 @@ public class RedisService implements IService {
     public void initialize() {
         FileConfiguration config = plugin.getServiceRepository().getService(ConfigService.class).getDatabaseConfig();
 
-        String host = config.getString("database.redis.host", "localhost");
-        int port = config.getInt("database.redis.port", 6379);
-        String password = config.getString("database.redis.password", "");
+        String host = config.getString("database.redis.host");
+        int port = config.getInt("database.redis.port");
+        String password = config.getString("database.redis.password");
 
-        this.channel = config.getString("database.redis.channel", "flash");
+        this.channel = config.getString("database.redis.channel");
         this.gson = new Gson();
         this.jedisPool = new JedisPool(host, port);
 
@@ -62,11 +62,12 @@ public class RedisService implements IService {
     }
 
     @Override
-    public void save() {
+    public void closure() {
         if (this.jedisPool == null) {
             return;
         }
         this.jedisPool.close();
+        Logger.logInfo("Successfully closed Redis connection.");
     }
 
     /**
