@@ -21,7 +21,7 @@ public class FlashCommand extends BaseCommand {
 
         Arrays.asList(
                 "",
-                "  &3&l" + this.flash.getDescription().getName() + " Practice Core &8- &7Information",
+                "  &3&l" + this.flash.getDescription().getName() + " Core &8- &7Information",
                 "   &3● &fAuthor: &b" + this.flash.getDescription().getAuthors().toString().replace("[", "").replace("]", ""),
                 "   &3● &fVersion: &b" + this.flash.getDescription().getVersion(),
                 "   &3● &fDiscord: &b" + "https://discord.gg/ERgRdXPS9T",

@@ -48,7 +48,7 @@ public class Logger {
     public void logStartupInfo(Flash plugin, long startupTime) {
         Arrays.asList(
                 "",
-                " &3&l" + plugin.getDescription().getName().toUpperCase() + " PRACTICE CORE",
+                " &3&l" + plugin.getDescription().getName().toUpperCase() + " CORE",
                 "",
                 " &7 * &bAuthor: &f" + plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""),
                 " &7 * &bVersion: &f" + plugin.getDescription().getVersion(),
