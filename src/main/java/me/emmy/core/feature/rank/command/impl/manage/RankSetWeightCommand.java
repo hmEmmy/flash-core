@@ -1,4 +1,4 @@
-package me.emmy.core.feature.rank.command.impl;
+package me.emmy.core.feature.rank.command.impl.manage;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;

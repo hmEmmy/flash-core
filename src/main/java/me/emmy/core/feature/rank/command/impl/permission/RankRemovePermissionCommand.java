@@ -1,4 +1,4 @@
-package me.emmy.core.feature.rank.command.impl;
+package me.emmy.core.feature.rank.command.impl.permission;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
@@ -9,22 +9,20 @@ import me.emmy.core.util.ActionBarUtil;
 import me.emmy.core.util.CC;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
 /**
  * @author Emmy
  * @project Flash-Core
  * @since 29/03/2025
  */
-public class RankSetDescriptionCommand extends BaseCommand {
-    @CommandData(name = "rank.setdescription", permission = "flash.rank.setdescription", description = "Set the description of a rank", usage = "/rank setdescription <rank> <description>")
+public class RankRemovePermissionCommand extends BaseCommand {
+    @CommandData(name = "rank.removepermission", permission = "flash.rank.removepermission", description = "Remove a permission from a rank", usage = "/rank removepermission <rank> <permission>")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&cUsage: /rank setdescription <rank> <description>"));
+            player.sendMessage(CC.translate("&cUsage: /rank removepermission <rank> <permission>"));
             return;
         }
 
@@ -35,9 +33,14 @@ public class RankSetDescriptionCommand extends BaseCommand {
             return;
         }
 
-        String description = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-        rank.setDescription(description);
+        String permission = args[1];
+        if (!rank.getPermissions().contains(permission)) {
+            player.sendMessage(CC.translate("&cThis rank does not have that permission!"));
+            return;
+        }
+
+        rank.getPermissions().remove(permission);
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the description of &b" + rank.getName() + " &ato &b" + description + "&a!", 7);
+        ActionBarUtil.sendMessage(player, "&aYou have successfully removed the permission &b" + permission + " &afrom the rank &b" + rank.getName() + "&a!", 7);
     }
 }

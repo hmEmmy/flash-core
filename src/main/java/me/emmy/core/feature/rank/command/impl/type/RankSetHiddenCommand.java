@@ -1,4 +1,4 @@
-package me.emmy.core.feature.rank.command.impl;
+package me.emmy.core.feature.rank.command.impl.type;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
@@ -14,15 +14,15 @@ import org.bukkit.entity.Player;
  * @project Flash-Core
  * @since 29/03/2025
  */
-public class RankSetCostCommand extends BaseCommand {
-    @CommandData(name = "rank.setcost", permission = "flash.rank.setcost", description = "Set the cost of a rank", usage = "/rank setcost <rank> <cost>")
+public class RankSetHiddenCommand extends BaseCommand {
+    @CommandData(name = "rank.sethidden", permission = "flash.rank.sethidden", description = "Set the hidden status of a rank", usage = "/rank sethidden <rank> <true/false>")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&cUsage: /rank setcost <rank> <cost>"));
+            player.sendMessage(CC.translate("&cUsage: /rank sethidden <rank> <true/false>"));
             return;
         }
 
@@ -33,16 +33,18 @@ public class RankSetCostCommand extends BaseCommand {
             return;
         }
 
-        int cost;
+        boolean hidden;
         try {
-            cost = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cThe cost must be a number!"));
+            hidden = Boolean.parseBoolean(args[1]);
+        } catch (IllegalArgumentException e) {
+            player.sendMessage(CC.translate("&cInvalid value for hidden status! Use true or false."));
             return;
         }
 
-        rank.setCost(cost);
+        rank.setHiddenRank(hidden);
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the cost of &b" + rank.getName() + " &ato &b" + cost + "&a!", 7);
+
+        String message = hidden ? "&aYou have successfully set the rank &b" + rank.getName() + " &ato hidden!" : "&aYou have successfully set the rank &b" + rank.getName() + " &ato visible!";
+        ActionBarUtil.sendMessage(player, message, 7);
     }
 }

@@ -1,4 +1,4 @@
-package me.emmy.core.feature.rank.command.impl;
+package me.emmy.core.feature.rank.command.impl.type;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
@@ -7,25 +7,22 @@ import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
 import me.emmy.core.util.CC;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
 
 /**
  * @author Emmy
  * @project Flash-Core
  * @since 29/03/2025
  */
-public class RankSetColorCommand extends BaseCommand {
-    @CommandData(name = "rank.setcolor", permission = "flash.rank.setcolor", description = "Set the color of a rank", usage = "/rank setcolor <rank> <color>")
+public class RankSetPurchasableCommand extends BaseCommand {
+    @CommandData(name = "rank.setpurchasable", permission = "flash.rank.setpurchasable", description = "Set a rank as purchasable", usage = "/rank setpurchasable <rank> <true/false>")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&cUsage: /rank setcolor <rank> <color>"));
+            player.sendMessage(CC.translate("&cUsage: /rank setpurchasable <rank> <true/false>"));
             return;
         }
 
@@ -36,16 +33,18 @@ public class RankSetColorCommand extends BaseCommand {
             return;
         }
 
-        ChatColor color;
+        boolean purchasable;
         try {
-            color = ChatColor.valueOf(args[1].toUpperCase());
+            purchasable = Boolean.parseBoolean(args[1]);
         } catch (IllegalArgumentException e) {
-            player.sendMessage(CC.translate("&cThat color does not exist! Example: &4DARK_RED&c."));
+            player.sendMessage(CC.translate("&cInvalid value! Use true or false."));
             return;
         }
 
-        rank.setColor(color);
+        rank.setPurchasable(purchasable);
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the color of &b" + rank.getName() + " &ato &b" + color + color.name() + "&a!", 7);
+
+        String message = purchasable ? "&aYou have successfully set the rank &b" + rank.getName() + " &ato be purchasable!" : "&aYou have successfully set the rank &b" + rank.getName() + " &ato not be purchasable!";
+        ActionBarUtil.sendMessage(player, message, 7);
     }
 }

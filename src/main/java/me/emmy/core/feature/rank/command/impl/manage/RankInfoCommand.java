@@ -1,4 +1,4 @@
-package me.emmy.core.feature.rank.command.impl;
+package me.emmy.core.feature.rank.command.impl.manage;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
@@ -55,6 +55,8 @@ public class RankInfoCommand extends BaseCommand {
                 "   &3● &fHidden: &b" + (rank.isHiddenRank() ? yes : no),
                 "   &3● &fInheritance: &b" + (rank.getInheritance().isEmpty() ? none : rank.getInheritance().toString()),
                 "   &3● &fPermissions: &b" + (rank.getPermissions().isEmpty() ? none : rank.getPermissions().toString()),
+                "",
+                "  &3&lRank Description: &b" + (rank.getDescription().isEmpty() ? notSet : rank.getDescription()),
                 ""
         ).forEach(line -> player.sendMessage(CC.translate(line)));
     }

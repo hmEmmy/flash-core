@@ -1,4 +1,4 @@
-package me.emmy.core.feature.rank.command.impl;
+package me.emmy.core.feature.rank.command.impl.appearance;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
@@ -16,15 +16,15 @@ import java.util.Arrays;
  * @project Flash-Core
  * @since 29/03/2025
  */
-public class RankSetSuffixCommand extends BaseCommand {
-    @CommandData(name = "rank.setsuffix", permission = "flash.rank.setsuffix", description = "Set the suffix of a rank", usage = "/rank setsuffix <rank> <suffix>")
+public class RankSetPrefixCommand extends BaseCommand {
+    @CommandData(name = "rank.setprefix", permission = "flash.rank.setprefix", description = "Set the prefix of a rank", usage = "/rank setprefix <rank> <prefix>")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&cUsage: /rank setsuffix <rank> <suffix>"));
+            player.sendMessage(CC.translate("&cUsage: /rank setprefix <rank> <prefix>"));
             return;
         }
 
@@ -35,9 +35,9 @@ public class RankSetSuffixCommand extends BaseCommand {
             return;
         }
 
-        String suffix = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-        rank.setSuffix(suffix);
+        String prefix = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+        rank.setPrefix(prefix);
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the suffix of &b" + rank.getName() + " &ato &b" + suffix + "&a!", 7);
+        ActionBarUtil.sendMessage(player, "&aYou have successfully set the prefix of &b" + rank.getName() + " &ato &r" + prefix + "&a!", 7);
     }
 }
