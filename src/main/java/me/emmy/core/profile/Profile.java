@@ -2,13 +2,14 @@ package me.emmy.core.profile;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.emmy.core.Flash;
 import org.bukkit.Bukkit;
 
 import java.util.UUID;
 
 /**
  * @author Emmy
- * @project Flash-Core
+ * @project Flash
  * @since 29/03/2025
  */
 @Getter
@@ -32,10 +33,10 @@ public class Profile {
     }
 
     public void loadProfile() {
-
+        Flash.getInstance().getServiceRepository().getService(ProfileService.class).getProfileStorage().loadProfile(this);
     }
 
     public void saveProfile() {
-
+        Flash.getInstance().getServiceRepository().getService(ProfileService.class).getProfileStorage().saveProfile(this);
     }
 }

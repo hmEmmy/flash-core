@@ -1,7 +1,8 @@
-package me.emmy.core.api.service;
+package me.emmy.core.service;
 
 import lombok.Getter;
 import me.emmy.core.Flash;
+import me.emmy.core.api.service.IService;
 import me.emmy.core.util.Logger;
 
 import java.util.LinkedHashMap;

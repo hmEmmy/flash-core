@@ -26,10 +26,10 @@ public class ConfigService implements IService {
     private final Map<String, File> files;
 
     private final String[] configFileNames = {
-            "settings.yml"
+            "settings.yml", "database.yml"
     };
 
-    private final FileConfiguration settingsConfig;
+    private final FileConfiguration settingsConfig, databaseConfig;
 
     /**
      * Constructor for the ConfigService class.
@@ -45,6 +45,7 @@ public class ConfigService implements IService {
         this.initialize();
 
         this.settingsConfig = this.getConfig("settings.yml");
+        this.databaseConfig = this.getConfig("database.yml");
     }
 
     @Override
