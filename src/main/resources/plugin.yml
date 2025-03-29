@@ -1,0 +1,3 @@
+name: Flash
+version: '${project.version}'
+main: me.emmy.core.Flash
