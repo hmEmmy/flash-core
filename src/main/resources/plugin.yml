@@ -1,3 +1,5 @@
 name: Flash
 version: '${project.version}'
 main: me.emmy.core.Flash
+author: Emmy
+description: '${project.description}'
