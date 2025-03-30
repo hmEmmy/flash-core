@@ -19,6 +19,8 @@ import me.emmy.core.feature.rank.command.impl.permission.RankRemovePermissionCom
 import me.emmy.core.feature.tag.command.TagCommand;
 import me.emmy.core.feature.world.command.WorldCommand;
 import me.emmy.core.feature.world.command.impl.*;
+import me.emmy.core.server.command.SetSpawnCommand;
+import me.emmy.core.server.command.SpawnCommand;
 
 /**
  * @author Emmy
@@ -62,6 +64,9 @@ public class CommandService implements IService {
         new WorldDeleteCommand();
         new WorldListCommand();
         new WorldTeleportCommand();
+
+        new SpawnCommand();
+        new SetSpawnCommand();
     }
 
     @Override
