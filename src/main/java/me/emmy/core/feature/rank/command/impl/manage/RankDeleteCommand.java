@@ -4,8 +4,7 @@ import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
 import me.emmy.core.database.redis.RedisService;
-import me.emmy.core.database.redis.packet.enums.EnumRankPacketType;
-import me.emmy.core.database.redis.packet.impl.RankPacketImpl;
+import me.emmy.core.database.redis.packet.impl.rank.RankDeletionPacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -42,11 +41,8 @@ public class RankDeleteCommand extends BaseCommand {
             return;
         }
 
-        RankPacketImpl rankPacket = RankPacketImpl.builder()
-                .rankName(rankName)
-                .packetType(EnumRankPacketType.DELETE)
-                .build();
-        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankPacket);
+        RankDeletionPacketImpl rankDeletionPacket = new RankDeletionPacketImpl(rank);
+        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankDeletionPacket);
 
         ActionBarUtil.sendMessage(player, "&cYou have successfully deleted the rank &b" + rankName + "&c!", 7);
     }

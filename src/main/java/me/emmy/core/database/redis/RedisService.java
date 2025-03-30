@@ -103,8 +103,12 @@ public class RedisService implements IService {
      */
     public void sendPacket(AbstractRedisPacket packet) {
         packet.onSend();
-        new Thread(() -> this.process(jedis -> jedis.publish(this.channel, packet.getClass().getName() + "||" + this.gson.toJson(packet)))).start();
+        String json = this.gson.toJson(packet);
+        Logger.logInfo("Sending Redis Packet: " + json);
+
+        new Thread(() -> this.process(jedis -> jedis.publish(this.channel, packet.getClass().getName() + "||" + json))).start();
     }
+
 
     /**
      * Execute a command using the Jedis connection pool.

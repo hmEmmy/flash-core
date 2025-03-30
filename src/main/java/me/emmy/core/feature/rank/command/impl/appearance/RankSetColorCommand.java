@@ -4,8 +4,7 @@ import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
 import me.emmy.core.database.redis.RedisService;
-import me.emmy.core.database.redis.packet.enums.EnumRankPacketType;
-import me.emmy.core.database.redis.packet.impl.RankPacketImpl;
+import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -45,13 +44,12 @@ public class RankSetColorCommand extends BaseCommand {
             return;
         }
 
-        RankPacketImpl rankPacket = RankPacketImpl.builder()
-                .rankName(rank.getName())
-                .packetType(EnumRankPacketType.COLOR)
-                .color(color)
-                .build();
-        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankPacket);
+        rank.setColor(color);
+        rankService.saveRank(rank);
 
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the color of &b" + rank.getName() + " &ato &b" + color + color.name() + "&a!", 7);
+        RankUpdatePacketImpl rankUpdatePacket = new RankUpdatePacketImpl(rank);
+        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankUpdatePacket);
+
+        ActionBarUtil.sendMessage(player, "&aYou have successfully set the color of &b" + rank.getName() + " &ato &b" + color + color.name() + "&a!", 10);
     }
 }

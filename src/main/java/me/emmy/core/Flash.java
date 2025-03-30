@@ -3,6 +3,7 @@ package me.emmy.core;
 import lombok.Getter;
 import me.emmy.core.api.command.CommandFramework;
 import me.emmy.core.feature.rank.RankService;
+import me.emmy.core.server.ServerProperty;
 import me.emmy.core.service.ServiceRepository;
 import me.emmy.core.command.CommandService;
 import me.emmy.core.config.ConfigService;
@@ -39,6 +40,7 @@ public class Flash extends JavaPlugin {
 
     private void initializeServices() {
         this.serviceRepository.registerService(ConfigService.class.getSimpleName(), new ConfigService(this));
+        this.serviceRepository.registerService(ServerProperty.class.getSimpleName(), new ServerProperty(this));
         this.serviceRepository.registerService(CommandService.class.getSimpleName(), new CommandService());
         this.serviceRepository.registerService(MongoService.class.getSimpleName(), new MongoService(this));
         this.serviceRepository.registerService(RedisService.class.getSimpleName(), new RedisService(this));

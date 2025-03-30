@@ -3,6 +3,8 @@ package me.emmy.core.feature.rank.command.impl.appearance;
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
+import me.emmy.core.database.redis.RedisService;
+import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -36,8 +38,17 @@ public class RankSetSuffixCommand extends BaseCommand {
         }
 
         String suffix = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+        if (suffix.length() > 16) {
+            player.sendMessage(CC.translate("&cThe suffix cannot be longer than 16 characters!"));
+            return;
+        }
+
         rank.setSuffix(suffix);
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the suffix of &b" + rank.getName() + " &ato &b" + suffix + "&a!", 7);
+
+        RankUpdatePacketImpl rankUpdatePacket = new RankUpdatePacketImpl(rank);
+        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankUpdatePacket);
+
+        ActionBarUtil.sendMessage(player, "&aYou have successfully set the suffix of &b" + rank.getName() + " &ato &b" + suffix + "&a!", 10);
     }
 }

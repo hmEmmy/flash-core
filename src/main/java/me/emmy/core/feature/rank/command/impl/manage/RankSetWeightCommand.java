@@ -3,6 +3,8 @@ package me.emmy.core.feature.rank.command.impl.manage;
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
+import me.emmy.core.database.redis.RedisService;
+import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -41,8 +43,17 @@ public class RankSetWeightCommand extends BaseCommand {
             return;
         }
 
+        if (weight < 0) {
+            player.sendMessage(CC.translate("&cThe weight must be a positive number!"));
+            return;
+        }
+
         rank.setWeight(weight);
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully set the weight of &b" + rank.getName() + " &ato &b" + weight + "&a!", 7);
+
+        RankUpdatePacketImpl rankUpdatePacket = new RankUpdatePacketImpl(rank);
+        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankUpdatePacket);
+
+        ActionBarUtil.sendMessage(player, "&aYou have successfully set the weight of &b" + rank.getName() + " &ato &b" + weight + "&a!", 10);
     }
 }

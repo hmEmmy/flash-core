@@ -3,6 +3,8 @@ package me.emmy.core.feature.rank.command.impl.inheritance;
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
+import me.emmy.core.database.redis.RedisService;
+import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -46,6 +48,10 @@ public class RankRemoveInheritanceCommand extends BaseCommand {
 
         rank.getInheritance().remove(inheritedRank.getName());
         rankService.saveRank(rank);
-        ActionBarUtil.sendMessage(player, "&aYou have successfully removed inheritance from &b" + rank.getName() + " &afrom &b" + inheritedRank.getName() + "&a!", 7);
+
+        RankUpdatePacketImpl rankUpdatePacket = new RankUpdatePacketImpl(rank);
+        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankUpdatePacket);
+
+        ActionBarUtil.sendMessage(player, "&aYou have successfully removed inheritance from &b" + rank.getName() + " &afrom &b" + inheritedRank.getName() + "&a!", 10);
     }
 }

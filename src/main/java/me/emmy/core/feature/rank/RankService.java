@@ -1,6 +1,5 @@
 package me.emmy.core.feature.rank;
 
-import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.database.mongo.MongoService;
-import me.emmy.core.util.Logger;
 import org.bson.Document;
 import org.bukkit.ChatColor;
 
@@ -25,7 +23,6 @@ public class RankService implements IService {
     protected final Flash plugin;
     private final List<Rank> ranks;
     private final MongoCollection<Document> collection;
-    private final Gson gson;
 
     /**
      * Constructor for RankService.
@@ -36,20 +33,25 @@ public class RankService implements IService {
         this.plugin = plugin;
         this.ranks = new ArrayList<>();
         this.collection = plugin.getServiceRepository().getService(MongoService.class).getDatabase().getCollection("ranks");
-        this.gson = new Gson();
         this.initialize();
     }
 
     @Override
     public void initialize() {
         this.collection.find().forEach(document -> {
-            try {
-                String json = document.toJson();
-                Rank rank = this.gson.fromJson(json, Rank.class);
-                this.ranks.add(rank);
-            } catch (Exception exception) {
-                Logger.logError("Failed to deserialize rank document: " + document.toJson());
-            }
+            Rank rank = new Rank(document.getString("name"));
+            rank.setPrefix(document.getString("prefix"));
+            rank.setSuffix(document.getString("suffix"));
+            rank.setWeight(document.getInteger("weight"));
+            rank.setCost(document.getInteger("cost"));
+            rank.setColor(ChatColor.valueOf(document.getString("color")));
+            rank.setDefaultRank(document.getBoolean("defaultRank"));
+            rank.setStaffRank(document.getBoolean("staffRank"));
+            rank.setPurchasable(document.getBoolean("purchasable"));
+            rank.setHiddenRank(document.getBoolean("hidden"));
+            rank.setInheritance((List<String>) document.get("inheritance"));
+            rank.setPermissions((List<String>) document.get("permissions"));
+            this.ranks.add(rank);
         });
 
         if (this.getDefaultRank() == null) {
@@ -63,92 +65,125 @@ public class RankService implements IService {
     }
 
     /**
-     * Saves a rank to the MongoDB collection using Gson.
+     * Retrieves a rank by its name.
      *
-     * @param rank the rank to save
+     * @param name the name of the rank
+     * @return the rank, or null if not found
      */
-    public void saveRank(Rank rank) {
-        String json = this.gson.toJson(rank);
-        Document document = Document.parse(json);
-        this.collection.replaceOne(Filters.eq("name", rank.getName()), document, new ReplaceOptions().upsert(true));
+    public Rank getRank(String name) {
+        return this.ranks.stream().filter(rank -> rank.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     /**
-     * Allows to retrieve a rank.
+     * Retrieves a rank by its object.
      *
-     * @param rank the rank to retrieve
-     * @return the rank if found, null otherwise
+     * @param rank the rank object
+     * @return the rank, or null if not found
      */
     public Rank getRank(Rank rank) {
         return this.ranks.stream().filter(r -> r.getName().equalsIgnoreCase(rank.getName())).findFirst().orElse(null);
     }
 
     /**
-     * Allows to retrieve a rank by its name.
+     * Retrieves the default rank.
      *
-     * @param name the name of the rank to retrieve
-     * @return the rank if found, null otherwise
-     */
-    public Rank getRank(String name) {
-        return this.ranks.stream().filter(r -> r.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
-    }
-
-    /**
-     * Allows to retrieve the default rank.
-     *
-     * @return the default rank if found, null otherwise
+     * @return the default rank, or null if not found
      */
     public Rank getDefaultRank() {
         return this.ranks.stream().filter(Rank::isDefaultRank).findFirst().orElse(null);
     }
 
-    private void createDefaultRank() {
-        Rank rank = new Rank("Default");
-        rank.setDescription("&7Default rank");
-        rank.setPrefix("");
-        rank.setSuffix("");
-        rank.setColor(ChatColor.GREEN);
-        rank.setWeight(0);
-        rank.setCost(0);
-        rank.setDefaultRank(true);
-        rank.setStaffRank(false);
-        rank.setHiddenRank(false);
-        rank.setPurchasable(false);
-        rank.setPermissions(new ArrayList<>());
-        rank.setInheritance(new ArrayList<>());
-        this.ranks.add(rank);
-        this.saveRank(rank);
+    /**
+     * Method to save a rank.
+     *
+     * @param rank the rank to save
+     */
+    public void saveRank(Rank rank) {
+        Document document = this.toDocument(rank);
+        this.collection.replaceOne(Filters.eq("name", rank.getName()), document, new ReplaceOptions().upsert(true));
     }
 
     /**
-     * Creates a new rank with default values.
+     * Converts a Rank object to a MongoDB Document.
+     *
+     * @param rank the rank to convert
+     * @return the MongoDB Document
+     */
+    private Document toDocument(Rank rank) {
+        Document document = new Document();
+        document.put("name", rank.getName());
+        document.put("prefix", rank.getPrefix());
+        document.put("suffix", rank.getSuffix());
+        document.put("weight", rank.getWeight());
+        document.put("cost", rank.getCost());
+        document.put("color", rank.getColor().name());
+        document.put("defaultRank", rank.isDefaultRank());
+        document.put("staffRank", rank.isStaffRank());
+        document.put("purchasable", rank.isPurchasable());
+        document.put("hidden", rank.isHiddenRank());
+        document.put("inheritance", rank.getInheritance());
+        document.put("permissions", rank.getPermissions());
+        return document;
+    }
+
+    /**
+     * Creates a rank and saves it to the database.
      *
      * @param rank the rank to create
      */
     public void createRank(Rank rank) {
-        rank.setDescription("");
-        rank.setPrefix("");
-        rank.setSuffix("");
-        rank.setColor(ChatColor.WHITE);
-        rank.setWeight(0);
-        rank.setCost(0);
-        rank.setDefaultRank(false);
-        rank.setStaffRank(false);
-        rank.setHiddenRank(false);
-        rank.setPurchasable(false);
-        rank.setPermissions(new ArrayList<>());
-        rank.setInheritance(new ArrayList<>());
-        this.ranks.add(rank);
         this.saveRank(rank);
+        this.ranks.add(rank);
     }
 
     /**
-     * Deletes a rank from the list and the MongoDB collection.
+     * Deletes a rank from the database and the list.
      *
      * @param rank the rank to delete
      */
     public void deleteRank(Rank rank) {
+        this.collection.deleteOne(Filters.eq("name", rank.getName()));
         this.ranks.remove(rank);
-        this.collection.deleteOne(new Document("name", rank.getName()));
+    }
+
+    public void createDefaultRank() {
+        Rank rank = new Rank("Default");
+        rank.setPrefix("");
+        rank.setSuffix("");
+        rank.setWeight(0);
+        rank.setCost(0);
+        rank.setColor(ChatColor.GREEN);
+        rank.setDefaultRank(true);
+        rank.setStaffRank(false);
+        rank.setPurchasable(false);
+        rank.setHiddenRank(false);
+        rank.setInheritance(new ArrayList<>());
+        rank.setPermissions(new ArrayList<>());
+        this.createRank(rank);
+    }
+
+    /**
+     * Reloads a rank by deleting and recreating it.
+     *
+     * @param rank the rank to reload
+     */
+    public void reloadRank(Rank rank) {
+        Rank toBeUpdatedRank = this.getRank(rank.getName());
+        if (toBeUpdatedRank == null) {
+            return;
+        }
+
+        toBeUpdatedRank.setPrefix(rank.getPrefix());
+        toBeUpdatedRank.setSuffix(rank.getSuffix());
+        toBeUpdatedRank.setWeight(rank.getWeight());
+        toBeUpdatedRank.setCost(rank.getCost());
+        toBeUpdatedRank.setColor(rank.getColor());
+        toBeUpdatedRank.setDefaultRank(rank.isDefaultRank());
+        toBeUpdatedRank.setStaffRank(rank.isStaffRank());
+        toBeUpdatedRank.setPurchasable(rank.isPurchasable());
+        toBeUpdatedRank.setHiddenRank(rank.isHiddenRank());
+        toBeUpdatedRank.setInheritance(rank.getInheritance());
+        toBeUpdatedRank.setPermissions(rank.getPermissions());
+        this.saveRank(toBeUpdatedRank);
     }
 }

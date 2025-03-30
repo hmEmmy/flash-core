@@ -22,7 +22,7 @@ public class RankCommand extends BaseCommand {
         Arrays.asList(
                 "",
                 "  &3&lRank Commands &8- &7Help",
-                "   &3● &f/rank list &8- &7List all ranks",
+                "   &3● &f/rank list",
                 "   &3● &f/rank info &b<rank>",
                 "   &3● &f/rank create &b<rank>",
                 "   &3● &f/rank delete &b<rank>",
