@@ -17,5 +17,5 @@ By purchasing and using this Server Core, you agree to the following terms:
 By using this Server Core, you agree to all the terms and conditions outlined above. If you do not agree, do not use this plugin.
 
 ### 💡 List of features to be added 💡
-- World Management (world teleport, create, delete - multiverse-core alike)
+~~World Management (world teleport, create, delete - multiverse-core alike)~~
 
