@@ -2,14 +2,15 @@ package me.emmy.core;
 
 import lombok.Getter;
 import me.emmy.core.api.command.CommandFramework;
-import me.emmy.core.feature.rank.RankService;
-import me.emmy.core.server.ServerProperty;
-import me.emmy.core.service.ServiceRepository;
+import me.emmy.core.api.menu.MenuListener;
 import me.emmy.core.command.CommandService;
 import me.emmy.core.config.ConfigService;
 import me.emmy.core.database.mongo.MongoService;
 import me.emmy.core.database.redis.RedisService;
+import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.profile.ProfileService;
+import me.emmy.core.server.ServerProperty;
+import me.emmy.core.service.ServiceRepository;
 import me.emmy.core.util.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +30,7 @@ public class Flash extends JavaPlugin {
         this.commandFramework = new CommandFramework(this);
         this.serviceRepository = new ServiceRepository(this);
         this.initializeServices();
+        this.registerListeners();
 
         Logger.logStartupInfo(this, startTime);
     }
@@ -47,5 +49,9 @@ public class Flash extends JavaPlugin {
         this.serviceRepository.registerService(RankService.class.getSimpleName(), new RankService(this));
         this.serviceRepository.registerService(ProfileService.class.getSimpleName(), new ProfileService(this));
         this.serviceRepository.getService(ProfileService.class).loadProfiles();
+    }
+
+    private void registerListeners() {
+        this.getServer().getPluginManager().registerEvents(new MenuListener(), this);
     }
 }

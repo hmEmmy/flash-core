@@ -16,6 +16,7 @@ import me.emmy.core.feature.rank.command.impl.inheritance.RankAddInheritanceComm
 import me.emmy.core.feature.rank.command.impl.inheritance.RankRemoveInheritanceCommand;
 import me.emmy.core.feature.rank.command.impl.permission.RankAddPermissionCommand;
 import me.emmy.core.feature.rank.command.impl.permission.RankRemovePermissionCommand;
+import me.emmy.core.feature.tag.command.TagCommand;
 
 /**
  * @author Emmy
@@ -50,6 +51,8 @@ public class CommandService implements IService {
         new RankRemovePermissionCommand();
         new RankAddInheritanceCommand();
         new RankRemoveInheritanceCommand();
+
+        new TagCommand();
     }
 
     @Override
