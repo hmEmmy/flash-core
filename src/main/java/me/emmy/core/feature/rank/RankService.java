@@ -9,10 +9,12 @@ import me.emmy.core.api.service.IService;
 import me.emmy.core.database.mongo.MongoService;
 import me.emmy.core.database.redis.RedisService;
 import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
+import me.emmy.core.util.Logger;
 import org.bson.Document;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,6 +58,10 @@ public class RankService implements IService {
             rank.setPermissions((List<String>) document.get("permissions"));
             this.ranks.add(rank);
         });
+
+        if (this.ranks.isEmpty()) {
+            this.createDefaults();
+        }
 
         if (this.getDefaultRank() == null) {
             this.createDefaultRank();
@@ -140,6 +146,32 @@ public class RankService implements IService {
     }
 
     /**
+     * Helper method to create a new rank.
+     *
+     * @param name        The rank's name
+     * @param prefix      The rank's prefix
+     * @param weight      The rank's weight
+     * @param color       The rank's color
+     * @param staffRank   Whether the rank is a staff rank
+     * @return A newly created Rank object
+     */
+    private Rank createRank(String name, String prefix, int weight, ChatColor color, boolean staffRank) {
+        Rank rank = new Rank(name);
+        rank.setPrefix(prefix);
+        rank.setSuffix("");
+        rank.setWeight(weight);
+        rank.setCost(0);
+        rank.setColor(color);
+        rank.setDefaultRank(false);
+        rank.setStaffRank(staffRank);
+        rank.setPurchasable(false);
+        rank.setHiddenRank(false);
+        rank.setInheritance(new ArrayList<>());
+        rank.setPermissions(new ArrayList<>());
+        return rank;
+    }
+
+    /**
      * Deletes a rank from the database and the list.
      *
      * @param rank the rank to delete
@@ -198,5 +230,31 @@ public class RankService implements IService {
     public void sendUpdatePacket(Rank rank) {
         RankUpdatePacketImpl rankPacket = new RankUpdatePacketImpl(rank);
         this.plugin.getServiceRepository().getService(RedisService.class).sendPacket(rankPacket);
+    }
+
+    private void createDefaults() {
+        List<Rank> defaultRanks = Arrays.asList(
+                this.createRank("Owner", "&7[&4&oOwner&7] &r", 1000, ChatColor.DARK_RED, true),
+                this.createRank("Manager", "&7[&4&oManager&7] &r", 750, ChatColor.DARK_RED, true),
+                this.createRank("Admin", "&7[&cAdmin&7] &r", 500, ChatColor.RED, true),
+                this.createRank("Mod", "&7[&3&oMod&7] &r", 200, ChatColor.DARK_AQUA, true),
+                this.createRank("Helper", "&7[&e&oHelper&7] &r", 100, ChatColor.YELLOW, true),
+                this.createRank("Builder", "&7[&2&oBuilder&7] &r", 75, ChatColor.DARK_GREEN, true),
+                this.createRank("Famous", "&7[&6&oFamous&7] &r", 50, ChatColor.GOLD, false),
+                this.createRank("Media", "&7[&5&oMedia&7] &r", 40, ChatColor.DARK_PURPLE, false),
+                this.createRank("MVP", "&7[&bMVP&7] &r", 20, ChatColor.AQUA, false),
+                this.createRank("VIP", "&7[&2VIP&7] &r", 10, ChatColor.DARK_GREEN, false)
+        );
+
+        for (Rank rank : defaultRanks) {
+            if (this.getRank(rank.getName()) == null) {
+                this.createRank(rank);
+                Logger.logInfo("Created rank: " + rank.getName());
+            } else {
+                Logger.logInfo("Rank already exists: " + rank.getName());
+            }
+        }
+
+        this.ranks.forEach(this::saveRank);
     }
 }

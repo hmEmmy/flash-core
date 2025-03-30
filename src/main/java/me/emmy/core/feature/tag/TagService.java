@@ -115,6 +115,30 @@ public class TagService implements IService {
     }
 
     /**
+     * Helper method to create a new tag.
+     *
+     * @param name        The tag's name
+     * @param appearance  The tag's appearance (e.g., "❤")
+     * @param description The tag's description
+     * @param category    The tag's category
+     * @param color       The tag's color
+     * @param icon        The material icon
+     * @param durability  The durability of the icon
+     * @return A newly created Tag object
+     */
+    public Tag createTag(String name, String appearance, String description, EnumTagCategory category, ChatColor color, Material icon, int durability) {
+        Tag tag = new Tag(name, appearance);
+        tag.setDescription(description);
+        tag.setCategory(category);
+        tag.setColor(color);
+        tag.setIcon(icon);
+        tag.setDurability(durability);
+        tag.setPurchasable(false);
+        tag.setCost(0);
+        return tag;
+    }
+
+    /**
      * Deletes a tag from the database and the list.
      *
      * @param tag the tag to delete
@@ -144,30 +168,6 @@ public class TagService implements IService {
         toBeUpdatedTag.setPurchasable(tag.isPurchasable());
         toBeUpdatedTag.setCost(tag.getCost());
         this.saveTag(toBeUpdatedTag);
-    }
-
-    /**
-     * Helper method to create a new tag.
-     *
-     * @param name        The tag's name
-     * @param appearance  The tag's appearance (e.g., "❤")
-     * @param description The tag's description
-     * @param category    The tag's category
-     * @param color       The tag's color
-     * @param icon        The material icon
-     * @param durability  The durability of the icon
-     * @return A newly created Tag object
-     */
-    public Tag createTag(String name, String appearance, String description, EnumTagCategory category, ChatColor color, Material icon, int durability) {
-        Tag tag = new Tag(name, appearance);
-        tag.setDescription(description);
-        tag.setCategory(category);
-        tag.setColor(color);
-        tag.setIcon(icon);
-        tag.setDurability(durability);
-        tag.setPurchasable(false);
-        tag.setCost(0);
-        return tag;
     }
 
     /**

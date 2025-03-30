@@ -36,7 +36,7 @@ public class RedisService implements IService {
 
     @Override
     public void initialize() {
-        FileConfiguration config = plugin.getServiceRepository().getService(ConfigService.class).getDatabaseConfig();
+        FileConfiguration config = this.plugin.getServiceRepository().getService(ConfigService.class).getDatabaseConfig();
 
         String host = config.getString("database.redis.host");
         int port = config.getInt("database.redis.port");
