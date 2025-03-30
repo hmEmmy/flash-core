@@ -44,6 +44,6 @@ public class RankDeleteCommand extends BaseCommand {
         RankDeletionPacketImpl rankDeletionPacket = new RankDeletionPacketImpl(rank);
         this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankDeletionPacket);
 
-        ActionBarUtil.sendMessage(player, "&cYou have successfully deleted the rank &b" + rankName + "&c!", 7);
+        ActionBarUtil.sendMessage(player, "&cYou have successfully deleted the rank &b" + rankName + "&c!", 10);
     }
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.database.mongo.MongoService;
+import me.emmy.core.database.redis.RedisService;
+import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import org.bson.Document;
 import org.bukkit.ChatColor;
 
@@ -37,6 +39,7 @@ public class RankService implements IService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void initialize() {
         this.collection.find().forEach(document -> {
             Rank rank = new Rank(document.getString("name"));
@@ -185,5 +188,15 @@ public class RankService implements IService {
         toBeUpdatedRank.setInheritance(rank.getInheritance());
         toBeUpdatedRank.setPermissions(rank.getPermissions());
         this.saveRank(toBeUpdatedRank);
+    }
+
+    /**
+     * Sends an update packet for a rank over redis.
+     *
+     * @param rank the rank to send the update for
+     */
+    public void sendUpdatePacket(Rank rank) {
+        RankUpdatePacketImpl rankPacket = new RankUpdatePacketImpl(rank);
+        this.plugin.getServiceRepository().getService(RedisService.class).sendPacket(rankPacket);
     }
 }

@@ -3,8 +3,6 @@ package me.emmy.core.feature.rank.command.impl.manage;
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
-import me.emmy.core.database.redis.RedisService;
-import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -50,9 +48,7 @@ public class RankSetCostCommand extends BaseCommand {
 
         rank.setCost(cost);
         rankService.saveRank(rank);
-
-        RankUpdatePacketImpl rankUpdatePacket = new RankUpdatePacketImpl(rank);
-        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankUpdatePacket);
+        rankService.sendUpdatePacket(rank);
 
         ActionBarUtil.sendMessage(player, "&aYou have successfully set the cost of &b" + rank.getName() + " &ato &b" + cost + "&a!", 10);
     }

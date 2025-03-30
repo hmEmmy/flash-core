@@ -3,8 +3,6 @@ package me.emmy.core.feature.rank.command.impl.type;
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
-import me.emmy.core.database.redis.RedisService;
-import me.emmy.core.database.redis.packet.impl.rank.RankUpdatePacketImpl;
 import me.emmy.core.feature.rank.Rank;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.util.ActionBarUtil;
@@ -45,11 +43,9 @@ public class RankSetPurchasableCommand extends BaseCommand {
 
         rank.setPurchasable(purchasable);
         rankService.saveRank(rank);
-
-        RankUpdatePacketImpl rankUpdatePacket = new RankUpdatePacketImpl(rank);
-        this.flash.getServiceRepository().getService(RedisService.class).sendPacket(rankUpdatePacket);
+        rankService.sendUpdatePacket(rank);
 
         String message = purchasable ? "&aYou have successfully set the rank &b" + rank.getName() + " &ato be purchasable!" : "&aYou have successfully set the rank &b" + rank.getName() + " &ato not be purchasable!";
-        ActionBarUtil.sendMessage(player, message, 7);
+        ActionBarUtil.sendMessage(player, message, 10);
     }
 }
