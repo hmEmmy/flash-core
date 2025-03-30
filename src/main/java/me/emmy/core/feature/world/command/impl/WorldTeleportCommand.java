@@ -34,6 +34,6 @@ public class WorldTeleportCommand extends BaseCommand {
         }
 
         worldService.teleportPlayer(player, world.getName());
-        ActionBarUtil.sendMessage(player, "&a&lTELEPORTED TO: &b" + world.getName() + " world", 5);
+        ActionBarUtil.sendMessage(player, "&a&lTELEPORTED TO: &b" + world.getName(), 5);
     }
 }

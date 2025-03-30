@@ -63,6 +63,7 @@ public class CommandService implements IService {
         new WorldCreateVoidWorldCommand();
         new WorldDeleteCommand();
         new WorldListCommand();
+        new WorldSetRuleCommand();
         new WorldTeleportCommand();
 
         new SpawnCommand();
