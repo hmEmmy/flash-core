@@ -142,9 +142,13 @@ public class WorldService implements IService {
             return;
         }
 
-        ServerProperty serverProperty = this.plugin.getServiceRepository().getService(ServerProperty.class);
         Location worldSpawn = world.getSpawnLocation();
+        ServerProperty serverProperty = this.plugin.getServiceRepository().getService(ServerProperty.class);
+        if (serverProperty.getSpawn().getWorld().equals(world)) {
+            player.teleport(serverProperty.getSpawn() == null ? worldSpawn : serverProperty.getSpawn());
+            return;
+        }
 
-        player.teleport(serverProperty.getSpawn() == null ? worldSpawn : serverProperty.getSpawn());
+        player.teleport(worldSpawn);
     }
 }
