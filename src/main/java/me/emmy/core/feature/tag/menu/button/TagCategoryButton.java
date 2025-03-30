@@ -5,7 +5,6 @@ import me.emmy.core.api.menu.Button;
 import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.feature.tag.enums.EnumTagCategory;
 import me.emmy.core.feature.tag.menu.TagMenu;
-import me.emmy.core.util.CC;
 import me.emmy.core.util.ItemBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

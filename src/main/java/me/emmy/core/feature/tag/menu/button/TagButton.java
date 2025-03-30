@@ -26,14 +26,14 @@ public class TagButton extends Button {
     public ItemStack getButtonItem(Player player) {
         ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
         boolean isSelected = profileService.getProfile(player.getUniqueId()).getTag().equals(this.tag.getName());
-        String permissionLore = player.hasPermission("flash.tag." + this.tag.getName().toLowerCase()) ? isSelected ? "&a&lSELECTED" : "&aClick to use!" : "&c&lNO PERMISSION";
+
+        String tagPermission = "flash.tag." + this.tag.getName().toLowerCase();
+        String permissionLore = player.hasPermission(tagPermission) ? isSelected ? "&a&lSELECTED" : "&aClick to use!" : "&c&lNO PERMISSION";
+        String description = this.tag.getDescription().isEmpty() ? "" : " &7(" + this.tag.getDescription() + ")";
 
         return new ItemBuilder(this.tag.getIcon())
-                .name("&b&l" + this.tag.getName())
+                .name("&b&l" + this.tag.getName() + description)
                 .lore(
-                        "",
-                        "&bDescription:",
-                        " &b&l▎ &f" + this.tag.getDescription(),
                         "",
                         "&bAppearance:",
                         " &b&l▎ &f" + this.tag.getColor() + this.tag.getAppearance(),
