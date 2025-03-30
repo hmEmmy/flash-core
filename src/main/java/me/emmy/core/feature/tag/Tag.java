@@ -37,7 +37,7 @@ public class Tag {
      */
     public Tag(String name, String appearance) {
         this.name = name;
-        this.appearance = "";
+        this.appearance = appearance;
         this.description = "";
         this.category = EnumTagCategory.TEXT;
         this.color = ChatColor.WHITE;

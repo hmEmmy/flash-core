@@ -8,6 +8,7 @@ import me.emmy.core.config.ConfigService;
 import me.emmy.core.database.mongo.MongoService;
 import me.emmy.core.database.redis.RedisService;
 import me.emmy.core.feature.rank.RankService;
+import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.Logger;
 
@@ -40,6 +41,7 @@ public class ServiceRepository {
         this.getService(RedisService.class).closure();
         this.getService(ProfileService.class).closure();
         this.getService(RankService.class).closure();
+        this.getService(TagService.class).closure();
         this.getService(MongoService.class).closure();
     }
 

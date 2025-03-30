@@ -1,7 +1,10 @@
 package me.emmy.core.feature.tag.menu.button;
 
+import me.emmy.core.Flash;
 import me.emmy.core.api.menu.Button;
+import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.feature.tag.enums.EnumTagCategory;
+import me.emmy.core.feature.tag.menu.TagMenu;
 import me.emmy.core.util.CC;
 import me.emmy.core.util.ItemBuilder;
 import org.bukkit.entity.Player;
@@ -35,7 +38,7 @@ public class TagCategoryButton extends Button {
                         " &b&l▎ &f" + this.category.getDescription(),
                         "",
                         "&bAmount:",
-                        " &b&l▎ &f" + "0" + " tags",
+                        " &b&l▎ &f" + Flash.getInstance().getServiceRepository().getService(TagService.class).getAmountInCategory(this.category),
                         "",
                         "&aClick to view all!"
                 )
@@ -48,7 +51,6 @@ public class TagCategoryButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        player.closeInventory();
-        player.sendMessage(CC.translate("&cThis feature is not yet implemented!"));
+        new TagMenu(this.category).openMenu(player);
     }
 }

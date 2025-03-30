@@ -18,7 +18,7 @@ public class TagCategoryMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        return "&3&lChoose a Category";
+        return "&3&Choose Category";
     }
 
     @Override

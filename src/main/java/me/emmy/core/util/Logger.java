@@ -3,6 +3,7 @@ package me.emmy.core.util;
 import lombok.experimental.UtilityClass;
 import me.emmy.core.Flash;
 import me.emmy.core.feature.rank.RankService;
+import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.profile.ProfileService;
 import org.bukkit.Bukkit;
 
@@ -58,7 +59,7 @@ public class Logger {
                 "",
                 " &7 * &bLoaded Profiles: &f" + plugin.getServiceRepository().getService(ProfileService.class).getProfiles().size(),
                 " &7 * &bRanks: &f" + plugin.getServiceRepository().getService(RankService.class).getRanks().size(),
-                " &7 * &bTags: &f" + "0",
+                " &7 * &bTags: &f" + plugin.getServiceRepository().getService(TagService.class).getTags().size(),
                 "",
                 " &7 * &bSpigot: &f" + plugin.getServer().getName(),
                 "",
