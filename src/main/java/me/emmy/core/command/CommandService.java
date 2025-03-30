@@ -17,6 +17,8 @@ import me.emmy.core.feature.rank.command.impl.inheritance.RankRemoveInheritanceC
 import me.emmy.core.feature.rank.command.impl.permission.RankAddPermissionCommand;
 import me.emmy.core.feature.rank.command.impl.permission.RankRemovePermissionCommand;
 import me.emmy.core.feature.tag.command.TagCommand;
+import me.emmy.core.feature.world.command.WorldCommand;
+import me.emmy.core.feature.world.command.impl.*;
 
 /**
  * @author Emmy
@@ -53,6 +55,13 @@ public class CommandService implements IService {
         new RankRemoveInheritanceCommand();
 
         new TagCommand();
+
+        new WorldCommand();
+        new WorldCreateCommand();
+        new WorldCreateVoidWorldCommand();
+        new WorldDeleteCommand();
+        new WorldListCommand();
+        new WorldTeleportCommand();
     }
 
     @Override

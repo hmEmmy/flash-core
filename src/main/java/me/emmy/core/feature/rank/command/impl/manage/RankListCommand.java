@@ -58,17 +58,23 @@ public class RankListCommand extends BaseCommand {
                     .append(CC.translate("   &3● &fPurchasable: ")).append(CC.translate("&b" + (rank.isPurchasable() ? yes : no))).append("\n")
                     .append(CC.translate("   &3● &fHidden: ")).append(CC.translate("&b" + (rank.isHiddenRank() ? yes : no))).append("\n")
                     .append(CC.translate("   &3● &fPermissions: ")).append(CC.translate("&b" + (rank.getPermissions().isEmpty() ? none : String.join(", ", rank.getPermissions())))).append("\n")
-                    .append(CC.translate("   &3● &fInheritance: ")).append(CC.translate("&b" + (rank.getInheritance().isEmpty() ? none : String.join(", ", rank.getInheritance())))).append("\n")
+                    .append(CC.translate("   &3● &fInheritance: ")).append(CC.translate("&b" + (rank.getInheritance().isEmpty() ? none : String.join(", ", rank.getInheritance()))))
                     .create();
 
             ComponentBuilder message = new ComponentBuilder("   ");
             message.append("● ").color(ChatColor.DARK_AQUA);
+            message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
             message.append(rank.getName()).color(ChatColor.WHITE);
+            message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
             message.append(" - ").color(ChatColor.GRAY);
+            message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
             message.append(CC.translate(rank.getPrefix().isEmpty() ? notSet : rank.getPrefix()));
+            message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
             message.append(" ").color(ChatColor.GRAY);
+            message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
             message.append("[" + rank.getWeight() + "]").color(ChatColor.GRAY);
             if (rank.isDefaultRank()) {
+                message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));
                 message.append(" (Default)").color(ChatColor.GRAY);
             }
             message.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText));

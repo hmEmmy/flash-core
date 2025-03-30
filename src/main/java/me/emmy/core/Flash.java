@@ -9,6 +9,7 @@ import me.emmy.core.database.mongo.MongoService;
 import me.emmy.core.database.redis.RedisService;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.feature.tag.TagService;
+import me.emmy.core.feature.world.WorldService;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.server.ServerProperty;
 import me.emmy.core.service.ServiceRepository;
@@ -51,6 +52,7 @@ public class Flash extends JavaPlugin {
         this.serviceRepository.registerService(TagService.class.getSimpleName(), new TagService(this));
         this.serviceRepository.registerService(ProfileService.class.getSimpleName(), new ProfileService(this));
         this.serviceRepository.getService(ProfileService.class).loadProfiles();
+        this.serviceRepository.registerService(WorldService.class.getSimpleName(), new WorldService(this));
     }
 
     private void registerListeners() {
