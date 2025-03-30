@@ -131,7 +131,6 @@ public class WorldService implements IService {
         }
     }
 
-
     /**
      * Teleports a player to the spawn location of a specified world.
      *
