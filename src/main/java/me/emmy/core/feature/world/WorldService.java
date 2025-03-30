@@ -4,12 +4,10 @@ import lombok.var;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.feature.world.generator.VoidChunkGeneratorImpl;
+import me.emmy.core.server.ServerProperty;
 import me.emmy.core.util.CC;
 import me.emmy.core.util.Logger;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -144,6 +142,9 @@ public class WorldService implements IService {
             return;
         }
 
-        player.teleport(world.getSpawnLocation());
+        ServerProperty serverProperty = this.plugin.getServiceRepository().getService(ServerProperty.class);
+        Location worldSpawn = world.getSpawnLocation();
+
+        player.teleport(serverProperty.getSpawn() == null ? worldSpawn : serverProperty.getSpawn());
     }
 }
