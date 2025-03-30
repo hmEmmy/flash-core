@@ -1,4 +1,9 @@
 server:
   name: eu-test-server
   region: europe
-  spawn: ""
+  spawn: world:242.29325030379238:72.0:1348.6634388848404:3.0293403:14.217207
+  motd:
+    enabled: true
+    text:
+      - "    &3&m----&b&m----&7&m----&r  &3&lFlash Core  &7&m----&b&m----&3&m----&r"
+      - "                    &fHigh Quality Server Core"

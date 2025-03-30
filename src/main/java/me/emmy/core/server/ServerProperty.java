@@ -4,11 +4,15 @@ import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.config.ConfigService;
+import me.emmy.core.server.listener.MOTDListener;
 import me.emmy.core.util.LocationUtil;
 import me.emmy.core.util.Logger;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.ServerListPingEvent;
+
+import java.util.List;
 
 /**
  * @author Emmy
@@ -22,8 +26,8 @@ public class ServerProperty implements IService {
 
     private String name;
     private String region;
-    private String motd;
     private Location spawn;
+    private List<String> motd;
 
     /**
      * Constructor for ServerProperty.
@@ -40,13 +44,19 @@ public class ServerProperty implements IService {
     public void initialize() {
         this.name = this.config.getString("server.name");
         this.region = this.config.getString("server.region");
-        this.motd = ""; //TODO: Add proper motd handling service or whatever, cba rn
         this.spawn = LocationUtil.deserialize(this.config.getString("server.spawn"));
+
+        if (this.config.getBoolean("server.motd.enabled")) {
+            this.motd = this.config.getStringList("server.motd.text");
+            this.plugin.getServer().getPluginManager().registerEvents(new MOTDListener(this.plugin), this.plugin);
+        }
     }
 
     @Override
     public void closure() {
-
+        if (this.config.getBoolean("server.motd.enabled")) {
+            ServerListPingEvent.getHandlerList().unregister(this.plugin);
+        }
     }
 
     /**
@@ -70,7 +80,10 @@ public class ServerProperty implements IService {
     public void updateSpawn(Location location) {
         this.spawn = location;
         this.config.set("server.spawn", LocationUtil.serialize(location));
+        this.saveConfig();
+    }
 
+    private void saveConfig() {
         ConfigService configService = this.plugin.getServiceRepository().getService(ConfigService.class);
         configService.saveConfig(configService.getConfigFile("settings.yml"), this.config);
     }

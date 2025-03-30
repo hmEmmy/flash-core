@@ -10,6 +10,7 @@ import me.emmy.core.database.redis.RedisService;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.profile.ProfileService;
+import me.emmy.core.server.ServerProperty;
 import me.emmy.core.util.Logger;
 
 import java.util.LinkedHashMap;
@@ -43,6 +44,7 @@ public class ServiceRepository {
         this.getService(RankService.class).closure();
         this.getService(TagService.class).closure();
         this.getService(MongoService.class).closure();
+        this.getService(ServerProperty.class).closure();
     }
 
     /**
