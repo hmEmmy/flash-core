@@ -71,16 +71,15 @@ public class WorldService implements IService {
      * Creates a void world with the specified name and environment.
      *
      * @param name        the name of the world
-     * @param environment the environment of the world (e.g., NORMAL)
      */
-    public void createVoidWorld(String name, World.Environment environment) {
+    public void createVoidWorld(String name) {
         if (this.server.getWorld(name) != null) {
             Logger.logInfo("World " + name + " already exists!");
             return;
         }
 
         WorldCreator creator = new WorldCreator(name)
-                .environment(environment)
+                .environment(World.Environment.NORMAL)
                 .generator(new VoidChunkGeneratorImpl());
 
         this.server.createWorld(creator);

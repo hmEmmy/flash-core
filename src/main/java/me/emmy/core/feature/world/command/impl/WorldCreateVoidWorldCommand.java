@@ -4,10 +4,8 @@ import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
 import me.emmy.core.feature.world.WorldService;
-import me.emmy.core.util.CC;
 import me.emmy.core.util.ActionBarUtil;
-import org.bukkit.World.Environment;
-import org.bukkit.World;
+import me.emmy.core.util.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -34,7 +32,7 @@ public class WorldCreateVoidWorldCommand extends BaseCommand {
             return;
         }
 
-        worldService.createVoidWorld(worldName, Environment.NORMAL);
+        worldService.createVoidWorld(worldName);
         ActionBarUtil.sendMessage(player, "&aSuccessfully created a void world called &b" + worldName + "&a!", 10);
     }
 }
