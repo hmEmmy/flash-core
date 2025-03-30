@@ -1,7 +1,9 @@
 package me.emmy.core.profile.listener;
 
+import me.emmy.core.Flash;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
+import me.emmy.core.server.ServerProperty;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -47,6 +49,8 @@ public class ProfileListener implements Listener {
         profile.setUsername(player.getName());
         profile.setOnline(true);
         event.setJoinMessage(null);
+
+        Flash.getInstance().getServiceRepository().getService(ServerProperty.class).teleportToSpawn(player);
     }
 
     @EventHandler
