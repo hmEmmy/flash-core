@@ -2,8 +2,6 @@ package me.emmy.core.feature.chat;
 
 import me.emmy.core.Flash;
 import me.emmy.core.config.ConfigService;
-import me.emmy.core.feature.tag.Tag;
-import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.CC;
@@ -56,7 +54,10 @@ public class ChatListener implements Listener {
             String finalMessage = translate ? CC.translate(message) : message;
             format = format.replace("%message%", finalMessage);
 
-            event.setFormat(format);
+            event.setCancelled(true);
+            for (Player players : this.plugin.getServer().getOnlinePlayers()) {
+                players.sendMessage(format);
+            }
         }
     }
 }
