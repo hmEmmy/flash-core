@@ -45,18 +45,18 @@ public class Flash extends JavaPlugin {
     }
 
     private void initializeServices() {
-        this.serviceRepository.registerService(ConfigService.class.getSimpleName(), new ConfigService(this));
-        this.serviceRepository.registerService(ServerProperty.class.getSimpleName(), new ServerProperty(this));
-        this.serviceRepository.registerService(CommandService.class.getSimpleName(), new CommandService());
-        this.serviceRepository.registerService(MongoService.class.getSimpleName(), new MongoService(this));
-        this.serviceRepository.registerService(RedisService.class.getSimpleName(), new RedisService(this));
-        this.serviceRepository.registerService(RankService.class.getSimpleName(), new RankService(this));
-        this.serviceRepository.registerService(TagService.class.getSimpleName(), new TagService(this));
-        this.serviceRepository.registerService(ProfileService.class.getSimpleName(), new ProfileService(this));
+        this.serviceRepository.registerService(new ConfigService(this));
+        this.serviceRepository.registerService(new ServerProperty(this));
+        this.serviceRepository.registerService(new CommandService());
+        this.serviceRepository.registerService(new MongoService(this));
+        this.serviceRepository.registerService(new RedisService(this));
+        this.serviceRepository.registerService(new RankService(this));
+        this.serviceRepository.registerService(new TagService(this));
+        this.serviceRepository.registerService(new ProfileService(this));
         this.serviceRepository.getService(ProfileService.class).loadProfiles();
-        this.serviceRepository.registerService(WorldService.class.getSimpleName(), new WorldService(this));
-        this.serviceRepository.registerService(GrantService.class.getSimpleName(), new GrantService(this));
-        this.serviceRepository.registerService(ChatService.class.getSimpleName(), new ChatService(this));
+        this.serviceRepository.registerService(new WorldService(this));
+        this.serviceRepository.registerService(new GrantService(this));
+        this.serviceRepository.registerService(new ChatService(this));
     }
 
     private void registerListeners() {

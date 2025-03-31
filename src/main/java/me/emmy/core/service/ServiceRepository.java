@@ -11,7 +11,6 @@ import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.server.ServerProperty;
-import me.emmy.core.util.Logger;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -60,13 +59,9 @@ public class ServiceRepository {
     /**
      * Registers a service and logs the time taken to register it.
      *
-     * @param taskName the name of the task
      * @param service the service to register
      */
-    public void registerService(String taskName, IService service) {
-        long start = System.currentTimeMillis();
+    public void registerService(IService service) {
         this.services.put(service.getClass(), service);
-        long end = System.currentTimeMillis();
-        Logger.logInfo("Registered " + taskName + " in " + (end - start) + "ms.");
     }
 }
