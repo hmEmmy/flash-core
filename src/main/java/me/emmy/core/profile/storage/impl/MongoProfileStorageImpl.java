@@ -81,12 +81,12 @@ public class MongoProfileStorageImpl implements IProfileStorage {
         List<Document> grants = new ArrayList<>();
         RankService rankService = this.plugin.getServiceRepository().getService(RankService.class);
         for (Grant grant : profile.getGrants()) {
-            if (rankService.getRank(grant.getRank()) == null) {
+            if (rankService.getRank(grant.getRankName()) == null) {
                 continue;
             }
 
             Document grantDoc = new Document()
-                    .append("rank", grant.getRank())
+                    .append("rank", grant.getRankName())
                     .append("server", grant.getServer())
                     .append("issuer", grant.getIssuer())
                     .append("reason", grant.getReason())
@@ -134,7 +134,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
                 }
 
                 Grant grant = new Grant();
-                grant.setRank(grantDoc.getString("rank"));
+                grant.setRankName(grantDoc.getString("rank"));
                 grant.setServer(grantDoc.getString("server"));
                 grant.setIssuer(grantDoc.getString("issuer"));
                 grant.setReason(grantDoc.getString("reason"));

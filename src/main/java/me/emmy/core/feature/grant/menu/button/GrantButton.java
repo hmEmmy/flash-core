@@ -55,7 +55,7 @@ public class GrantButton extends Button {
         ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         Profile targetProfile = profileService.getProfile(this.target.getUniqueId());
-        if (targetProfile.rankAlreadyGranted(this.rank)) {
+        if (targetProfile.getActiveGrant(this.rank.getName()) != null) {
             player.sendMessage(CC.translate("&cThat player already has this rank granted."));
             return;
         }

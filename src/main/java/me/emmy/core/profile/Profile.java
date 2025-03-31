@@ -63,16 +63,6 @@ public class Profile {
     }
 
     /**
-     * Checks if the player already has a specific rank granted and if it has expired.
-     *
-     * @param rank The rank to check.
-     * @return true if the rank is already granted and not expired, false otherwise.
-     */
-    public boolean rankAlreadyGranted(Rank rank) {
-        return this.grants.stream().anyMatch(g -> g.getRank().equalsIgnoreCase(rank.getName()) && !g.hasExpired());
-    }
-
-    /**
      * Get the highest rank that a player has
      *
      * @return the highest rank
@@ -80,7 +70,7 @@ public class Profile {
     public Rank getHighestRank() {
         RankService rankService = Flash.getInstance().getServiceRepository().getService(RankService.class);
         return this.getActiveGrants().stream()
-                .map(Grant::getRank)
+                .map(Grant::getRankName)
                 .filter(Objects::nonNull)
                 .max(Comparator.comparingInt(rank -> rankService.getRank(rank).getWeight()))
                 .map(rankService::getRank)
@@ -116,7 +106,7 @@ public class Profile {
      */
     public Grant getActiveGrant(String rank) {
         return this.grants.stream()
-                .filter(grant -> grant.getRank().equalsIgnoreCase(rank) && !grant.hasExpired() && grant.isActive())
+                .filter(grant -> grant.getRankName().equalsIgnoreCase(rank) && !grant.hasExpired() && grant.isActive())
                 .findFirst()
                 .orElse(null);
     }
@@ -128,7 +118,7 @@ public class Profile {
      */
     public Grant getInactiveGrant(String rank) {
         return this.grants.stream()
-                .filter(grant -> grant.getRank().equalsIgnoreCase(rank) && grant.hasExpired() && grant.isActive())
+                .filter(grant -> grant.getRankName().equalsIgnoreCase(rank) && grant.hasExpired() && grant.isActive())
                 .findFirst()
                 .orElse(null);
     }
@@ -142,7 +132,6 @@ public class Profile {
     public String getTagAppearance(boolean spacing) {
         TagService tagService = Flash.getInstance().getServiceRepository().getService(TagService.class);
         Tag tag = tagService.getTag(this.tag);
-        String appearance = tag.getColor() + tag.getAppearance();
-        return this.tag.isEmpty() ? "" : spacing ? " &r" + appearance : "&r" + appearance;
+        return this.tag.isEmpty() ? "" : spacing ? " &r" + tag.getColor() + tag.getAppearance() : "&r" + tag.getColor() + tag.getAppearance();
     }
 }

@@ -133,7 +133,7 @@ public class ProfileService implements IService {
         for (Grant grant : profile.getGrants()) {
             if (grant.hasExpired() || !grant.isActive()) continue;
 
-            Rank rank = rankService.getRank(grant.getRank());
+            Rank rank = rankService.getRank(grant.getRankName());
             if (rank == null) continue;
 
             for (String permission : rank.getPermissions()) {

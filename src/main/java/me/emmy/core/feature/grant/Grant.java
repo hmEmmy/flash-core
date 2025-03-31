@@ -2,6 +2,9 @@ package me.emmy.core.feature.grant;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.emmy.core.Flash;
+import me.emmy.core.feature.rank.Rank;
+import me.emmy.core.feature.rank.RankService;
 
 /**
  * @author Emmy
@@ -11,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Grant {
-    private String rank;
+    private String rankName;
 
     private String server;
     private String issuer;
@@ -35,5 +38,9 @@ public class Grant {
      */
     public boolean hasExpired() {
         return !this.permanent && System.currentTimeMillis() >= this.addedAt + this.duration;
+    }
+
+    public Rank getRank() {
+        return Flash.getInstance().getServiceRepository().getService(RankService.class).getRank(this.rankName);
     }
 }

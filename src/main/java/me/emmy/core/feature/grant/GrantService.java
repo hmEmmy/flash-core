@@ -67,7 +67,7 @@ public class GrantService implements IService {
      */
     public void deactivateGrant(Profile targetProfile, String rank, String reason, String sender) {
         List<Grant> grants = targetProfile.getGrants();
-        grants.stream().filter(grant -> grant.getRank().equalsIgnoreCase(rank)).forEach(grant -> {
+        grants.stream().filter(grant -> grant.getRankName().equalsIgnoreCase(rank)).forEach(grant -> {
             grant.setRemover(sender);
             grant.setRemovalReason(reason);
             grant.setRemovedAt(System.currentTimeMillis());

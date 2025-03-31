@@ -6,7 +6,6 @@ import me.emmy.core.api.menu.Button;
 import me.emmy.core.feature.grant.Grant;
 import me.emmy.core.feature.grant.GrantService;
 import me.emmy.core.profile.Profile;
-import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.CC;
 import me.emmy.core.util.ItemBuilder;
 import org.bukkit.Material;
@@ -31,7 +30,7 @@ public class GrantConfirmButton extends Button {
                 .lore(
                         "",
                         "&7Are you sure you want to grant",
-                        "&7the &b" + this.grant.getRank() + " &7rank?",
+                        "&7the &b" + this.grant.getRankName() + " &7rank?",
                         "",
                         "&7The rank will be granted to",
                         "&7the player &b" + this.targetProfile.getUsername() + "&7.",
@@ -49,7 +48,7 @@ public class GrantConfirmButton extends Button {
         GrantService grantService = Flash.getInstance().getServiceRepository().getService(GrantService.class);
         grantService.addGrant(this.targetProfile, this.grant);
 
-        player.sendMessage(CC.translate("&4[Grant] &aYou have successfully granted the rank &b" + this.grant.getRank() + "&a to &b" + this.targetProfile.getUsername() + "&a."));
+        player.sendMessage(CC.translate("&4[Grant] &aYou have successfully granted the rank &b" + this.grant.getRankName() + "&a to &b" + this.targetProfile.getUsername() + "&a."));
         player.closeInventory();
     }
 }

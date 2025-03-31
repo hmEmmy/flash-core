@@ -47,7 +47,7 @@ public class GrantDurationPermanentButton extends Button {
         String server = Flash.getInstance().getServiceRepository().getService(ServerProperty.class).getName();
 
         Grant grant = new Grant();
-        grant.setRank(this.grantData.getRank().getName());
+        grant.setRankName(this.grantData.getRank().getName());
         grant.setServer(server);
         grant.setIssuer(player.getName());
         grant.setReason(this.grantData.getReason());
