@@ -49,10 +49,6 @@ public class GrantConfirmButton extends Button {
         GrantService grantService = Flash.getInstance().getServiceRepository().getService(GrantService.class);
         grantService.addGrant(this.targetProfile, this.grant);
 
-        ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
-        profile.setGrantProcessData(null);
-
         player.sendMessage(CC.translate("&4[Grant] &aYou have successfully granted the rank &b" + this.grant.getRank() + "&a to &b" + this.targetProfile.getUsername() + "&a."));
         player.closeInventory();
     }

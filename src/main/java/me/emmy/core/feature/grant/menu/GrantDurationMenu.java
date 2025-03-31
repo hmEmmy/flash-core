@@ -51,13 +51,4 @@ public class GrantDurationMenu extends Menu {
     public int getSize() {
         return 9 * 3;
     }
-
-    @Override
-    public void onClose(Player player) {
-        ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
-        profile.setGrantProcessData(null);
-
-        player.sendMessage(CC.translate("&c&lGRANT: &7Cancelled"));
-    }
 }

@@ -67,7 +67,5 @@ public class GrantConfirmMenu extends Menu {
         ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         profile.setGrantProcessData(null);
-
-        player.sendMessage(CC.translate("&c&lGRANT: &7Cancelled"));
     }
 }
