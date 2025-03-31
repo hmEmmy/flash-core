@@ -1,12 +1,16 @@
 package me.emmy.core.feature.grant.menu;
 
 import lombok.AllArgsConstructor;
+import me.emmy.core.Flash;
 import me.emmy.core.api.menu.Button;
 import me.emmy.core.api.menu.Menu;
 import me.emmy.core.api.menu.impl.CancelButton;
 import me.emmy.core.feature.grant.menu.button.GrantDurationButton;
 import me.emmy.core.feature.grant.menu.button.GrantDurationPermanentButton;
+import me.emmy.core.profile.Profile;
+import me.emmy.core.profile.ProfileService;
 import me.emmy.core.profile.data.GrantProcessData;
+import me.emmy.core.util.CC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -46,5 +50,14 @@ public class GrantDurationMenu extends Menu {
     @Override
     public int getSize() {
         return 9 * 3;
+    }
+
+    @Override
+    public void onClose(Player player) {
+        ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
+        Profile profile = profileService.getProfile(player.getUniqueId());
+        profile.setGrantProcessData(null);
+
+        player.sendMessage(CC.translate("&c&lGRANT: &7Cancelled"));
     }
 }

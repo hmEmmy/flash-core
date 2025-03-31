@@ -1,6 +1,5 @@
 package me.emmy.core.feature.grant.menu.button;
 
-import com.mysql.jdbc.profiler.ProfilerEvent;
 import lombok.AllArgsConstructor;
 import me.emmy.core.Flash;
 import me.emmy.core.api.menu.Button;
@@ -8,11 +7,9 @@ import me.emmy.core.feature.grant.Grant;
 import me.emmy.core.feature.grant.GrantService;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
-import me.emmy.core.profile.data.GrantProcessData;
 import me.emmy.core.util.CC;
 import me.emmy.core.util.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +47,11 @@ public class GrantConfirmButton extends Button {
         if (clickType != ClickType.LEFT) return;
 
         GrantService grantService = Flash.getInstance().getServiceRepository().getService(GrantService.class);
-        grantService.addGrant(targetProfile, this.grant);
+        grantService.addGrant(this.targetProfile, this.grant);
+
+        ProfileService profileService = Flash.getInstance().getServiceRepository().getService(ProfileService.class);
+        Profile profile = profileService.getProfile(player.getUniqueId());
+        profile.setGrantProcessData(null);
 
         player.sendMessage(CC.translate("&4[Grant] &aYou have successfully granted the rank &b" + this.grant.getRank() + "&a to &b" + this.targetProfile.getUsername() + "&a."));
         player.closeInventory();
