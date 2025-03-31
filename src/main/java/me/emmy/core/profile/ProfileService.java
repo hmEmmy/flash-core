@@ -5,11 +5,17 @@ import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.database.mongo.MongoService;
+import me.emmy.core.feature.grant.Grant;
+import me.emmy.core.feature.rank.Rank;
+import me.emmy.core.feature.rank.RankService;
+import me.emmy.core.profile.data.PermissionData;
 import me.emmy.core.profile.listener.ProfileListener;
 import me.emmy.core.profile.storage.IProfileStorage;
 import me.emmy.core.profile.storage.impl.MongoProfileStorageImpl;
 import me.emmy.core.util.Logger;
 import org.bson.Document;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +66,26 @@ public class ProfileService implements IService {
     public Profile getProfile(UUID uuid) {
         return this.profiles.get(uuid);
     }
+
+    /**
+     * Retrieves a profile from the map of profiles, or creates a new one if it doesn't exist.
+     *
+     * @param uuid the UUID of the profile
+     * @return the profile
+     */
+    public Profile getProfileCreateIfAbsent(UUID uuid) {
+        if (!this.profiles.containsKey(uuid)) {
+            Profile profile = new Profile(uuid);
+            profile.loadProfile();
+
+            this.addProfile(profile);
+
+            return profile;
+        }
+
+        return this.profiles.get(uuid);
+    }
+
     /**
      * Adds a profile to the map of profiles.
      *
@@ -76,6 +102,62 @@ public class ProfileService implements IService {
             profile.loadProfile();
 
             this.profiles.put(uuid, profile);
+        }
+    }
+
+    /**
+     * Attaches permissions to a player based on their profile.
+     *
+     * @param player the player to attach permissions to
+     */
+    public void attachPermissions(Player player) {
+        Profile profile = this.profiles.get(player.getUniqueId());
+        if (profile == null) {
+            return;
+        }
+
+        PermissionData permissionData = profile.getPermissionData();
+        RankService rankService = this.plugin.getServiceRepository().getService(RankService.class);
+
+        player.getEffectivePermissions().clear();
+        PermissionAttachment attachment = player.addAttachment(this.plugin);
+
+        permissionData.getPersonalPermissions().clear();
+        permissionData.getRankPermissions().clear();
+
+        for (String permission : profile.getPermissionData().getPersonalPermissions()) {
+            permissionData.addPermission(permission);
+            attachment.setPermission(permission, true);
+        }
+
+        for (Grant grant : profile.getGrants()) {
+            if (grant.hasExpired() || !grant.isActive()) continue;
+
+            Rank rank = rankService.getRank(grant.getRank());
+            if (rank == null) continue;
+
+            for (String permission : rank.getPermissions()) {
+                permissionData.addRankPermission(permission);
+                attachment.setPermission(permission, true);
+            }
+
+            for (String inheritedRankName : rank.getInheritance()) {
+                Rank inheritedRank = rankService.getRank(inheritedRankName);
+                if (inheritedRank == null) continue;
+
+                for (String inheritedPermission : inheritedRank.getPermissions()) {
+                    permissionData.addRankPermission(inheritedPermission);
+                    attachment.setPermission(inheritedPermission, true);
+                }
+            }
+        }
+
+        Rank defaultRank = rankService.getDefaultRank();
+        if (defaultRank != null) {
+            for (String permission : defaultRank.getPermissions()) {
+                permissionData.addRankPermission(permission);
+                attachment.setPermission(permission, true);
+            }
         }
     }
 }

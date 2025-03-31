@@ -3,7 +3,7 @@ package me.emmy.core.feature.world.menu;
 import lombok.AllArgsConstructor;
 import me.emmy.core.api.menu.Button;
 import me.emmy.core.api.menu.Menu;
-import me.emmy.core.feature.world.menu.button.WorldDeleteCancelButton;
+import me.emmy.core.api.menu.impl.CancelButton;
 import me.emmy.core.feature.world.menu.button.WorldDeleteConfirmButton;
 import org.bukkit.entity.Player;
 
@@ -30,7 +30,7 @@ public class WorldDeleteConfirmMenu extends Menu {
         Map<Integer, Button> buttons = new HashMap<>();
 
         buttons.put(12, new WorldDeleteConfirmButton(this.worldName, this.deleteFiles));
-        buttons.put(14, new WorldDeleteCancelButton());
+        buttons.put(14, new CancelButton("&c&lWORLD REMOVAL: &7Cancelled"));
 
         this.addGlass(buttons, 15);
 

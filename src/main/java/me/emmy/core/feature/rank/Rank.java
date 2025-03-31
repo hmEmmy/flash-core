@@ -57,4 +57,13 @@ public class Rank {
         this.permissions = new ArrayList<>();
         this.inheritance = new ArrayList<>();
     }
+
+    /**
+     * Get color and name of the rank.
+     *
+     * @return the rank color and the rank name
+     */
+    public String getRankWithColor() {
+        return this.color + this.name;
+    }
 }

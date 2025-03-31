@@ -7,3 +7,8 @@ server:
     text:
       - "    &3&m----&b&m----&7&m----&r  &3&lFlash Core  &7&m----&b&m----&3&m----&r"
       - "                    &fHigh Quality Server Core"
+
+chat:
+  formatting:
+    enabled: true
+    format: "%prefix%%color%%player%%suffix%&r%tag%&r&7:&r %message%"
