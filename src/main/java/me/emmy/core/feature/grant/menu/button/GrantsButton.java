@@ -40,8 +40,7 @@ public class GrantsButton extends Button {
         String expiresAtFormatted = this.grant.isPermanent() ? "Never" : dateFormat.format(new Date(this.grant.getAddedAt() + this.grant.getDuration()));
 
         List<String> activeLore = Arrays.asList(
-                "",
-                "&3&lGrant Info",
+                "&f● Rank: &b" + this.grant.getRank().getRankWithColor(),
                 "&f● Expires at: &b" + expiresAtFormatted,
                 "&f● Reason: &b" + this.grant.getReason(),
                 "&f● Added by: &b" + this.grant.getIssuer(),
@@ -52,8 +51,7 @@ public class GrantsButton extends Button {
         );
 
         List<String> inActiveLore = Arrays.asList(
-                "",
-                "&3&lGrant Info",
+                "&f● Rank: &b" + this.grant.getRank().getRankWithColor(),
                 "&f● Expires at: &c&lEXPIRED",
                 "&f● Reason: &b" + this.grant.getReason(),
                 "&f● Added by: &b" + this.grant.getIssuer(),
@@ -67,7 +65,7 @@ public class GrantsButton extends Button {
         );
 
         return new ItemBuilder(Material.PAPER)
-                .name(this.grant.getRank().getRankWithColor())
+                .name("&3&lGrant Info")
                 .lore(this.displayInactiveGrants ? inActiveLore : activeLore)
                 .build();
     }

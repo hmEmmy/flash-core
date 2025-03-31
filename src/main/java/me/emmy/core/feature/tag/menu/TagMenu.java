@@ -7,6 +7,7 @@ import me.emmy.core.api.menu.pagination.PaginatedMenu;
 import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.feature.tag.enums.EnumTagCategory;
 import me.emmy.core.feature.tag.menu.button.TagButton;
+import me.emmy.core.feature.tag.menu.button.TagCurrentButton;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class TagMenu extends PaginatedMenu {
 
         this.addGlassHeader(buttons, 15);
         buttons.put(4, new BackButton(new TagCategoryMenu()));
+        buttons.put(3, new TagCurrentButton());
 
         return buttons;
     }
@@ -55,5 +57,15 @@ public class TagMenu extends PaginatedMenu {
     @Override
     public int getSize() {
         return 9 * 3;
+    }
+
+    @Override
+    public boolean isUpdateAfterClick() {
+        return true;
+    }
+
+    @Override
+    public void onClose(Player player) {
+        super.onClose(player);
     }
 }

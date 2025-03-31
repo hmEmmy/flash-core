@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
-
 /**
  * @author Emmy
  * @project Flash-Core
@@ -25,11 +23,13 @@ public class GrantsToggleInactiveButton extends Button {
     @Override
     public ItemStack getButtonItem(Player player) {
         Material material = this.displayInactiveGrants ? Material.EMERALD : Material.REDSTONE;
-        String status = this.displayInactiveGrants ? "Showing Inactive Grants" : "Showing Active Grants";
+        String status = this.displayInactiveGrants ? "&c&lShowing Inactive Grants" : "&a&lShowing Active Grants";
 
         return new ItemBuilder(material)
-                .name("&b" + status)
-                .lore(Collections.singletonList("&7Click to toggle."))
+                .name(status)
+                .lore(
+                        "",
+                        "&7&lClick to view " + (this.displayInactiveGrants ? "active" : "inactive") + " grants.")
                 .build();
     }
 
