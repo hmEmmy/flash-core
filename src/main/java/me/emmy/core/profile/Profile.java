@@ -98,6 +98,11 @@ public class Profile {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get all inactive grants for this profile.
+     *
+     * @return a list of inactive grants
+     */
     public List<Grant> getInactiveGrants() {
         return this.grants.stream()
                 .filter(grant -> grant.hasExpired() && grant.isActive())
