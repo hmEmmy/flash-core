@@ -4,6 +4,8 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.emmy.core.Flash;
 import me.emmy.core.feature.grant.Grant;
+import me.emmy.core.feature.punishment.Punishment;
+import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
@@ -46,6 +48,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
 
         this.storeGrants(profile, document);
         this.storePermissions(profile, document);
+        this.storePunishments(profile, document);
 
         this.plugin.getServiceRepository().getService(ProfileService.class).getCollection().replaceOne(Filters.eq("uuid", profile.getUuid().toString()), document, new ReplaceOptions().upsert(true));
     }
@@ -69,6 +72,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
 
         this.setGrants(profile, document);
         this.setPermissions(profile, document);
+        this.setPunishments(profile, document);
     }
 
     /**
@@ -112,6 +116,33 @@ public class MongoProfileStorageImpl implements IProfileStorage {
         PermissionData permissionData = profile.getPermissionData();
         document.put("personalPermissions", permissionData.getPersonalPermissions());
         document.put("rankPermissions", permissionData.getRankPermissions());
+    }
+
+    /**
+     * Stores the punishments for the profile in the document.
+     *
+     * @param profile  the profile to store punishments for
+     * @param document the document to store the punishments in
+     */
+    private void storePunishments(Profile profile, Document document) {
+        List<Document> punishmentDocs = new ArrayList<>();
+        for (Punishment punishment : profile.getPunishments()) {
+            Document punishmentDoc = new Document()
+                    .append("type", punishment.getType().name())
+                    .append("issuer", punishment.getIssuer())
+                    .append("server", punishment.getServer())
+                    .append("reason", punishment.getReason())
+                    .append("remover", punishment.getRemover())
+                    .append("removalReason", punishment.getRemovalReason())
+                    .append("duration", punishment.getDuration())
+                    .append("addedAt", punishment.getAddedAt())
+                    .append("removedAt", punishment.getRemovedAt())
+                    .append("permanent", punishment.isPermanent())
+                    .append("silent", punishment.isSilent())
+                    .append("active", punishment.isActive());
+            punishmentDocs.add(punishmentDoc);
+        }
+        document.put("punishments", punishmentDocs);
     }
 
     /**
@@ -170,5 +201,37 @@ public class MongoProfileStorageImpl implements IProfileStorage {
             permissionData.getRankPermissions().addAll(rankPermissions);
         }
         profile.setPermissionData(permissionData);
+    }
+
+    /**
+     * Sets the punishments for the profile from the document.
+     *
+     * @param profile  the profile to set punishments for
+     * @param document the document containing punishment data
+     */
+    @SuppressWarnings("unchecked")
+    private void setPunishments(Profile profile, Document document) {
+        List<Punishment> punishments = new ArrayList<>();
+        List<Document> punishmentDocs = (List<Document>) document.get("punishments", List.class);
+
+        if (punishmentDocs != null) {
+            for (Document punishmentDoc : punishmentDocs) {
+                Punishment punishment = new Punishment();
+                punishment.setType(EnumPunishmentType.valueOf(punishmentDoc.getString("type")));
+                punishment.setIssuer(punishmentDoc.getString("issuer"));
+                punishment.setServer(punishmentDoc.getString("server"));
+                punishment.setReason(punishmentDoc.getString("reason"));
+                punishment.setRemover(punishmentDoc.getString("remover"));
+                punishment.setRemovalReason(punishmentDoc.getString("removalReason"));
+                punishment.setDuration(punishmentDoc.getLong("duration"));
+                punishment.setAddedAt(punishmentDoc.getLong("addedAt"));
+                punishment.setRemovedAt(punishmentDoc.getLong("removedAt"));
+                punishment.setPermanent(punishmentDoc.getBoolean("permanent"));
+                punishment.setSilent(punishmentDoc.getBoolean("silent"));
+                punishment.setActive(punishmentDoc.getBoolean("active"));
+                punishments.add(punishment);
+            }
+        }
+        profile.setPunishments(punishments);
     }
 }

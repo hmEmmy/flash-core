@@ -84,7 +84,7 @@ public class ProfileListener implements Listener {
      */
     private void handlePunishments(PlayerLoginEvent event, Profile profile) {
         for (Punishment punishment : profile.getPunishments()) {
-            if (!punishment.hasExpired()) {
+            if (punishment.isActive()) {
                 if (punishment.getType() == EnumPunishmentType.BAN || punishment.getType() == EnumPunishmentType.BLACKLIST) {
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CC.translate("&cYou are &4" + punishment.getType().getAction().toUpperCase() + " &cfrom this server.\n&7Reason: " + punishment.getReason()));
                     return;

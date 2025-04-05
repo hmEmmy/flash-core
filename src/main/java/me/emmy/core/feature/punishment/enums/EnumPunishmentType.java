@@ -15,6 +15,8 @@ public enum EnumPunishmentType {
     KICK("Staff member was mad", "Kicked"),
     BAN("Staff member was mad", "Banned"),
 
+    //TODO: add punishment priority or something like that so that if for example a player is blacklisted and banned, on join the blacklist applies first.
+
     ;
 
     private final String defaultPunishmentReason;

@@ -4,7 +4,10 @@ import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
 import me.emmy.core.profile.Profile;
+import me.emmy.core.util.CC;
 import me.emmy.core.util.DateUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,10 @@ public class PunishmentService implements IService {
         targetProfile.setPunishments(punishments);
         targetProfile.saveProfile();
 
+        Player player = Bukkit.getPlayer(targetProfile.getUuid());
+        if (player != null) {
+            player.kickPlayer(CC.translate("&cYou have been &4&l" + punishment.getType().getAction().toUpperCase() + "&c!"));
+        }
     }
 
     /**

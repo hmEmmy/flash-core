@@ -9,6 +9,7 @@ import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.server.ServerProperty;
+import me.emmy.core.util.ActionBarUtil;
 import me.emmy.core.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -66,7 +67,11 @@ public class BanCommand extends BaseCommand {
         if (sender instanceof Player) {
             Profile profile = profileService.getProfile(((Player) sender).getPlayer().getUniqueId());
             profile.getPunishmentData().addIssuedPunishment(punishment);
+            ActionBarUtil.sendMessage(((Player) sender), "&7&oYou have issued a ban to &e" + targetProfile.getUsername() + "&7&o for &e" + duration + "&7&o.", 10);
+            return;
         }
+
+        sender.sendMessage(CC.translate("&7&oYou have issued a ban to &e" + targetProfile.getUsername() + "&7&o for &e" + duration + "&7&o."));
 
         //TODO: do something for console bans i also wanna store them somewhere
     }
