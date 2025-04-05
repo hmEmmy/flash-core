@@ -42,7 +42,7 @@ public class Profile {
     private GrantProcessData grantProcessData;
     private PunishmentData punishmentData;
 
-    private EnumPlayerPronouns pronouns;
+    private EnumPlayerPronouns gender;
 
     /**
      * Constructor for the Profile class.
@@ -61,7 +61,7 @@ public class Profile {
         this.permissionData = new PermissionData();
         this.grantProcessData = null;
         this.punishmentData = new PunishmentData();
-        this.pronouns = EnumPlayerPronouns.NOT_SPECIFIED;
+        this.gender = EnumPlayerPronouns.NOT_SPECIFIED;
     }
 
     public void loadProfile() {

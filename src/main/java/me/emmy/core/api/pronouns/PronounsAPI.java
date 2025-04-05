@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * <p><strong>PronounsAPI</strong> — A lightweight, extensible API for managing player pronouns in Minecraft plugins.</p>
  *
- * <p>This API provides a default implementation through {@link me.emmy.api.repository.PlayerRepository},
+ * <p>This API provides a default implementation through {@link me.emmy.core.api.pronouns.repository.PlayerRepository},
  * but is also designed to integrate with existing core systems. Developers using custom profile handling
  * can assign {@code EnumPlayerPronouns} manually to their own player profile classes.</p>
  *

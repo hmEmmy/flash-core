@@ -46,7 +46,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
         document.put("username", profile.getUsername());
         document.put("coins", profile.getCoins());
         document.put("tag", profile.getTag());
-        document.put("pronouns", profile.getPronouns().name());
+        document.put("gender", profile.getGender().name());
 
         this.storeGrants(profile, document);
         this.storePermissions(profile, document);
@@ -71,7 +71,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
         profile.setUsername(document.getString("username"));
         profile.setCoins(document.containsKey("coins") ? document.getInteger("coins") : 0);
         profile.setTag(document.getString("tag") == null ? "" : document.getString("tag"));
-        profile.setPronouns(EnumPlayerPronouns.valueOf(document.getString("pronouns")));
+        profile.setGender(EnumPlayerPronouns.valueOf(document.getString("gender")));
 
         this.setGrants(profile, document);
         this.setPermissions(profile, document);
