@@ -3,6 +3,7 @@ package me.emmy.core;
 import lombok.Getter;
 import me.emmy.core.api.command.CommandFramework;
 import me.emmy.core.api.menu.MenuListener;
+import me.emmy.core.api.pronouns.PronounsAPI;
 import me.emmy.core.command.CommandService;
 import me.emmy.core.config.ConfigService;
 import me.emmy.core.database.mongo.MongoService;
@@ -26,6 +27,7 @@ public class Flash extends JavaPlugin {
     private static Flash instance;
     private CommandFramework commandFramework;
     private ServiceRepository serviceRepository;
+    private PronounsAPI pronounsAPI;
 
     @Override
     public void onEnable() {
@@ -34,6 +36,8 @@ public class Flash extends JavaPlugin {
 
         this.commandFramework = new CommandFramework(this);
         this.serviceRepository = new ServiceRepository(this);
+        this.pronounsAPI = new PronounsAPI(this, false);
+
         this.initializeServices();
         this.registerListeners();
 

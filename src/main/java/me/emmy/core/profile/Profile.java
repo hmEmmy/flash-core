@@ -3,6 +3,7 @@ package me.emmy.core.profile;
 import lombok.Getter;
 import lombok.Setter;
 import me.emmy.core.Flash;
+import me.emmy.core.api.pronouns.enums.EnumPlayerPronouns;
 import me.emmy.core.feature.grant.Grant;
 import me.emmy.core.feature.punishment.Punishment;
 import me.emmy.core.feature.rank.Rank;
@@ -41,6 +42,8 @@ public class Profile {
     private GrantProcessData grantProcessData;
     private PunishmentData punishmentData;
 
+    private EnumPlayerPronouns pronouns;
+
     /**
      * Constructor for the Profile class.
      *
@@ -58,6 +61,7 @@ public class Profile {
         this.permissionData = new PermissionData();
         this.grantProcessData = null;
         this.punishmentData = new PunishmentData();
+        this.pronouns = EnumPlayerPronouns.NOT_SPECIFIED;
     }
 
     public void loadProfile() {
@@ -139,12 +143,5 @@ public class Profile {
         TagService tagService = Flash.getInstance().getServiceRepository().getService(TagService.class);
         Tag tag = tagService.getTag(this.tag);
         return this.tag.isEmpty() ? "" : spacing ? " &r" + tag.getColor() + tag.getAppearance() : "&r" + tag.getColor() + tag.getAppearance();
-    }
-
-    public Punishment getActivePunishments() {
-        return this.punishments.stream()
-                .filter(punishment -> punishment.isActive() && !punishment.hasExpired())
-                .findFirst()
-                .orElse(null);
     }
 }

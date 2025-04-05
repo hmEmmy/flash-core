@@ -3,6 +3,7 @@ package me.emmy.core.profile.storage.impl;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.emmy.core.Flash;
+import me.emmy.core.api.pronouns.enums.EnumPlayerPronouns;
 import me.emmy.core.feature.grant.Grant;
 import me.emmy.core.feature.punishment.Punishment;
 import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
@@ -45,6 +46,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
         document.put("username", profile.getUsername());
         document.put("coins", profile.getCoins());
         document.put("tag", profile.getTag());
+        document.put("pronouns", profile.getPronouns().name());
 
         this.storeGrants(profile, document);
         this.storePermissions(profile, document);
@@ -69,6 +71,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
         profile.setUsername(document.getString("username"));
         profile.setCoins(document.containsKey("coins") ? document.getInteger("coins") : 0);
         profile.setTag(document.getString("tag") == null ? "" : document.getString("tag"));
+        profile.setPronouns(EnumPlayerPronouns.valueOf(document.getString("pronouns")));
 
         this.setGrants(profile, document);
         this.setPermissions(profile, document);
