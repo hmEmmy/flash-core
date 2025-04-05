@@ -40,6 +40,11 @@ public class Grant {
         return !this.permanent && System.currentTimeMillis() >= this.addedAt + this.duration;
     }
 
+    /**
+     * Retrieves the Rank object associated with this grant.
+     *
+     * @return The Rank object associated with this grant.
+     */
     public Rank getRank() {
         return Flash.getInstance().getServiceRepository().getService(RankService.class).getRank(this.rankName);
     }

@@ -1,9 +1,12 @@
 package me.emmy.core.profile.listener;
 
 import me.emmy.core.Flash;
+import me.emmy.core.feature.punishment.Punishment;
+import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.server.ServerProperty;
+import me.emmy.core.util.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,6 +35,7 @@ public class ProfileListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onLogin(PlayerLoginEvent event) {
+        Player player = event.getPlayer();
         if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
             return;
         }
@@ -40,6 +44,8 @@ public class ProfileListener implements Listener {
         profile.loadProfile();
 
         this.profileService.addProfile(profile);
+
+        this.handlePunishments(event, profile);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -68,5 +74,22 @@ public class ProfileListener implements Listener {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         profile.setOnline(false);
         profile.saveProfile();
+    }
+
+    /**
+     * Handles the punishments of a player during login.
+     *
+     * @param event   The PlayerLoginEvent.
+     * @param profile The profile of the player.
+     */
+    private void handlePunishments(PlayerLoginEvent event, Profile profile) {
+        for (Punishment punishment : profile.getPunishments()) {
+            if (!punishment.hasExpired()) {
+                if (punishment.getType() == EnumPunishmentType.BAN || punishment.getType() == EnumPunishmentType.BLACKLIST) {
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CC.translate("&cYou are &4" + punishment.getType().getAction().toUpperCase() + " &cfrom this server.\n&7Reason: " + punishment.getReason()));
+                    return;
+                }
+            }
+        }
     }
 }

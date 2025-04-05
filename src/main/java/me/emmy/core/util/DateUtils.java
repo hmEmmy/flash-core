@@ -2,9 +2,6 @@ package me.emmy.core.util;
 
 import lombok.experimental.UtilityClass;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @UtilityClass
 public class DateUtils {
     /**
@@ -45,15 +42,5 @@ public class DateUtils {
             }
         }
         return result;
-    }
-
-    /**
-     * Formats a date in milliseconds to a readable format.
-     *
-     * @param millis the date in milliseconds
-     * @return the formatted date
-     */
-    public static String formatDate(long millis) {
-        return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date(millis));
     }
 }
