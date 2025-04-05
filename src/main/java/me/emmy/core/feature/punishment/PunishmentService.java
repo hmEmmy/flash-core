@@ -29,24 +29,16 @@ public class PunishmentService implements IService {
         this.plugin = plugin;
     }
 
-    private void alertPunishment(Punishment punishment) {
-        //TODO: redis bla bla this and that and that and this yes
-    }
-
     /**
      * Method to add a punishment to a profile.
      *
-     * @param punishment the punishment to add
+     * @param punishment    the punishment to add
      * @param targetProfile the profile to which the punishment will be added
      */
     public void addActivePunishment(Punishment punishment, Profile targetProfile) {
         List<Punishment> punishments = targetProfile.getPunishments();
         punishments = punishments == null ? new ArrayList<>() : new ArrayList<>(punishments);
         punishments.add(punishment);
-
-        if (punishment.isSilent()) {
-            this.alertPunishment(punishment);
-        }
 
         targetProfile.setPunishments(punishments);
         targetProfile.saveProfile();
@@ -60,10 +52,10 @@ public class PunishmentService implements IService {
     /**
      * Deactivate a punishment for a profile.
      *
-     * @param punishment the punishment to remove
-     * @param remover     the player removing the punishment
+     * @param punishment    the punishment to remove
+     * @param remover       the player removing the punishment
      * @param targetProfile the profile from which the punishment will be removed
-     * @param removalReason     the reason for removing the punishment
+     * @param removalReason the reason for removing the punishment
      */
     public void deactivatePunishment(Punishment punishment, String remover, Profile targetProfile, String removalReason) {
         punishment.setRemover(remover);
@@ -77,7 +69,7 @@ public class PunishmentService implements IService {
     /**
      * Remove a punishment from a profile.
      *
-     * @param punishment the punishment to remove
+     * @param punishment    the punishment to remove
      * @param targetProfile the profile from which the punishment will be removed
      */
     public void removePunishment(Punishment punishment, Profile targetProfile) {
@@ -94,24 +86,31 @@ public class PunishmentService implements IService {
      * @param issuer   the issuer of the punishment
      * @param duration the duration of the punishment
      * @param reason   the reason for the punishment
-     * @param type    the type of punishment
-     * @param server  the server where the punishment was issued
-     * @param silent  whether the punishment is silent
+     * @param type     the type of punishment
+     * @param server   the server where the punishment was issued
+     * @param silent   whether the punishment is silent
      * @return the created punishment
      */
     public Punishment createPunishment(String issuer, String duration, String reason, EnumPunishmentType type, String server, boolean silent) {
         Punishment punishment = new Punishment();
         punishment.setType(type);
         punishment.setIssuer(issuer);
-        punishment.setPermanent(this.isDurationPermanent(duration));
+
+        boolean isPermanent = this.isDurationPermanent(duration);
+        punishment.setPermanent(isPermanent);
+
         punishment.setActive(true);
         punishment.setSilent(silent);
         punishment.setServer(server);
-        punishment.setDuration(this.isDurationPermanent(duration) ? -1 : DateUtils.parseTime(duration));
+
+        punishment.setDuration(isPermanent ? -1 : DateUtils.parseTime(duration));
+
         punishment.setAddedAt(System.currentTimeMillis());
-        punishment.setReason(reason.isEmpty() ? type.getDefaultPunishmentReason() : reason);
+        punishment.setReason(reason);
+
         return punishment;
     }
+
 
     /**
      * Check if the duration is permanent
