@@ -60,16 +60,7 @@ public class BanCommand extends BaseCommand {
         }
 
         String reason = args.length > 2 ? String.join(" ", Arrays.copyOfRange(args, 2, args.length)) : EnumPunishmentType.BAN.getDefaultPunishmentReason();
-
         String server = this.flash.getServiceRepository().getService(ServerProperty.class).getName();
-
-        if (targetPlayer.isOnline()) {
-            Player player = targetPlayer.getPlayer();
-            if (player != null) {
-                player.kickPlayer(CC.translate("&cYou have been &4&lBANNED&c!"));
-            }
-        }
-
         String issuer = sender instanceof Player ? sender.getName() : "Console";
 
         boolean silent = false;
