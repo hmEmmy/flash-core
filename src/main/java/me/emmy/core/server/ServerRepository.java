@@ -55,6 +55,14 @@ public class ServerRepository {
         ServerStatusPacketImpl packet = new ServerStatusPacketImpl(server);
         packet.setServerRepository(this);
 
+        /*
+         * We cannot add a ServerRepository field in ServerStatusPacketImpl, because Gson in RedisService will fail to serialize it.
+         * Neither can we call it via the main class instance, because this (ServerRepository) is not instantiated yet.
+         * I couldn't be bothered to find a better solution, so I just set it here.
+         *
+         * That's why "setServerRepository" is a thing. Don't judge me.
+         */
+
         this.plugin.getServiceRepository().getService(RedisService.class).sendPacket(packet);
     }
 
