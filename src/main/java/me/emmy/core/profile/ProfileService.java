@@ -1,6 +1,7 @@
 package me.emmy.core.profile;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import lombok.Getter;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
@@ -14,6 +15,8 @@ import me.emmy.core.profile.storage.IProfileStorage;
 import me.emmy.core.profile.storage.impl.MongoProfileStorageImpl;
 import me.emmy.core.util.Logger;
 import org.bson.Document;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
@@ -55,6 +58,49 @@ public class ProfileService implements IService {
     public void closure() {
         this.profiles.forEach((uuid, profile) -> profile.saveProfile());
         Logger.logInfo("Saved all profiles to the database.");
+    }
+
+    /**
+     * Retrieves a profile from the map of profiles or creates a new one if it doesn't exist.
+     *
+     * @param name  the name of the player
+     * @param force whether to force create a new profile if not found
+     * @return the profile
+     */
+    @SuppressWarnings("deprecation")
+    public Profile getOfflineProfile(String name, boolean force) {
+        Logger.log("Getting offline profile for " + name);
+        Player onlinePlayer = Bukkit.getPlayer(name);
+        if (onlinePlayer != null) {
+            return this.getProfile(onlinePlayer.getUniqueId());
+        }
+
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
+        UUID uuid = offlinePlayer.getUniqueId();
+
+        if (this.profiles.containsKey(uuid)) {
+            return this.profiles.get(uuid);
+        }
+
+        Document document = this.collection.find(Filters.eq("uuid", uuid.toString())).first();
+        if (document == null) {
+            document = this.collection.find(Filters.eq("username", name)).first();
+        }
+
+        if (document == null) {
+            if (!force) {
+                return null;
+            }
+
+            Profile profile = new Profile(uuid);
+            this.addProfile(profile);
+            return profile;
+        }
+
+        Profile profile = new Profile(UUID.fromString(document.getString("uuid")));
+        this.profileStorage.loadProfile(profile);
+        this.addProfile(profile);
+        return profile;
     }
 
     /**

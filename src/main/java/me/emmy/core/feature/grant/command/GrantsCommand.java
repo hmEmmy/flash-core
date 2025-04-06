@@ -7,7 +7,6 @@ import me.emmy.core.feature.grant.menu.GrantsMenu;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.CC;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -28,7 +27,7 @@ public class GrantsCommand extends BaseCommand {
             return;
         }
 
-        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+        OfflinePlayer target = this.flash.getPlayerIdentityCache().getOfflinePlayer(args[0]);
         ProfileService profileService = this.flash.getServiceRepository().getService(ProfileService.class);
         Profile targetProfile = profileService.getProfile(target.getUniqueId());
         if (targetProfile == null) {

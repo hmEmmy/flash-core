@@ -30,6 +30,8 @@ public class Punishment {
     private boolean silent;
     private boolean active;
 
+    private boolean removalSilent;
+
     /**
      * Checks if the punishment has expired.
      *

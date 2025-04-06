@@ -4,7 +4,8 @@ import me.emmy.core.api.service.IService;
 import me.emmy.core.command.impl.FlashCommand;
 import me.emmy.core.feature.grant.command.GrantCommand;
 import me.emmy.core.feature.grant.command.GrantsCommand;
-import me.emmy.core.feature.punishment.command.BanCommand;
+import me.emmy.core.feature.punishment.command.issue.BanCommand;
+import me.emmy.core.feature.punishment.command.pardon.UnBanCommand;
 import me.emmy.core.feature.rank.command.RankCommand;
 import me.emmy.core.feature.rank.command.impl.appearance.RankSetColorCommand;
 import me.emmy.core.feature.rank.command.impl.appearance.RankSetDescriptionCommand;
@@ -76,6 +77,7 @@ public class CommandService implements IService {
         new GrantsCommand();
 
         new BanCommand();
+        new UnBanCommand();
     }
 
     @Override

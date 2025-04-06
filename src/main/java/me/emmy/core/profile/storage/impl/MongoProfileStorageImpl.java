@@ -142,6 +142,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
                     .append("removedAt", punishment.getRemovedAt())
                     .append("permanent", punishment.isPermanent())
                     .append("silent", punishment.isSilent())
+                    .append("removalSilent", punishment.isRemovalSilent())
                     .append("active", punishment.isActive());
             punishmentDocs.add(punishmentDoc);
         }
@@ -231,6 +232,7 @@ public class MongoProfileStorageImpl implements IProfileStorage {
                 punishment.setRemovedAt(punishmentDoc.getLong("removedAt"));
                 punishment.setPermanent(punishmentDoc.getBoolean("permanent"));
                 punishment.setSilent(punishmentDoc.getBoolean("silent"));
+                punishment.setRemovalSilent(punishmentDoc.getBoolean("removalSilent"));
                 punishment.setActive(punishmentDoc.getBoolean("active"));
                 punishments.add(punishment);
             }

@@ -39,10 +39,11 @@ public class Flash extends JavaPlugin {
         this.commandFramework = new CommandFramework(this);
         this.serviceRepository = new ServiceRepository(this);
         this.pronounsAPI = new PronounsAPI(this, false);
-        this.playerIdentityCache = new PlayerIdentityCache(this);
 
         this.initializeServices();
         this.registerListeners();
+
+        this.playerIdentityCache = new PlayerIdentityCache(this);
 
         Logger.logStartupInfo(this, startTime);
     }

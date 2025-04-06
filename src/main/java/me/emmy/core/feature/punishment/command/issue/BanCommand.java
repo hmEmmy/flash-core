@@ -1,4 +1,4 @@
-package me.emmy.core.feature.punishment.command;
+package me.emmy.core.feature.punishment.command.issue;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
@@ -13,7 +13,6 @@ import me.emmy.core.profile.ProfileService;
 import me.emmy.core.server.ServerProperty;
 import me.emmy.core.util.ActionBarUtil;
 import me.emmy.core.util.CC;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +38,7 @@ public class BanCommand extends BaseCommand {
             return;
         }
 
-        OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
+        OfflinePlayer targetPlayer = this.flash.getPlayerIdentityCache().getOfflinePlayer(args[0]);
         UUID targetUUID = targetPlayer.getUniqueId();
 
         ProfileService profileService = this.flash.getServiceRepository().getService(ProfileService.class);
@@ -49,10 +48,10 @@ public class BanCommand extends BaseCommand {
             return;
         }
 
-        /*if (targetProfile.getPunishments().stream().anyMatch(punishment -> punishment.getType() == EnumPunishmentType.BAN && punishment.isActive())) {
+        if (targetProfile.getPunishments().stream().anyMatch(punishment -> punishment.getType() == EnumPunishmentType.BAN && punishment.isActive())) {
             sender.sendMessage(CC.translate("&cThat player is already banned."));
             return;
-        }*/
+        }
 
         String duration = "perm";
         if (!args[1].equalsIgnoreCase("perm") && !args[1].equalsIgnoreCase("permanent")) {

@@ -7,7 +7,6 @@ import me.emmy.core.feature.grant.menu.GrantMenu;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.CC;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -19,7 +18,6 @@ import org.bukkit.entity.Player;
 public class GrantCommand extends BaseCommand {
     @CommandData(name = "grant", permission = "flash.command.grant", description = "Grants a player a rank.", usage = "/grant <player> [force]")
     @Override
-    @SuppressWarnings("deprecation")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -29,7 +27,7 @@ public class GrantCommand extends BaseCommand {
             return;
         }
 
-        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+        OfflinePlayer target = this.flash.getPlayerIdentityCache().getOfflinePlayer(args[0]);
         if (target == null) {
             player.sendMessage(CC.translate("&cPlayer not found."));
             return;

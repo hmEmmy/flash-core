@@ -1,8 +1,13 @@
 package me.emmy.core.cache;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.ReplaceOptions;
 import lombok.Getter;
 import me.emmy.core.Flash;
+import me.emmy.core.database.mongo.MongoService;
+import me.emmy.core.profile.ProfileService;
 import me.emmy.core.util.Logger;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -21,6 +26,7 @@ public class PlayerIdentityCache {
     protected final Flash plugin;
     private final Map<UUID, String> cachedPlayers;
     private final int cacheSizeLimit = 10000;
+    public final MongoCollection<Document> collection;
 
     /**
      * Constructor for PlayerIdentityCache.
@@ -36,16 +42,21 @@ public class PlayerIdentityCache {
             }
         };
 
+        this.collection = plugin.getServiceRepository().getService(MongoService.class).getDatabase().getCollection("player_identity_cache");
+
         this.getServerData();
         Logger.log("Cached " + this.cachedPlayers.size() + " players.");
     }
 
     public void getServerData() {
+        this.loadDataFromMongo();
+
         for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
             if (!this.cachedPlayers.containsKey(player.getUniqueId())) {
                 String playerName = player.getName();
                 if (playerName != null) {
                     this.cachedPlayers.put(player.getUniqueId(), playerName);
+                    this.savePlayerToMongo(player.getUniqueId(), playerName);
                 }
             }
         }
@@ -83,25 +94,55 @@ public class PlayerIdentityCache {
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .map(uuid -> this.plugin.getServer().getOfflinePlayer(uuid))
-                .orElse(null);
+                .orElse(Bukkit.getOfflinePlayer(this.plugin.getServiceRepository().getService(ProfileService.class).getOfflineProfile(name, true).getUuid()));
     }
 
     /**
-     * Removes a player from the cache.
+     * Removes a player from the cache and MongoDB.
      *
      * @param uuid The player's UUID.
      */
     public void removePlayerFromCache(UUID uuid) {
         this.cachedPlayers.remove(uuid);
+        this.removePlayerFromMongo(uuid);
     }
 
     /**
-     * Adds or updates a player in the cache.
+     * Adds or updates a player in the cache and MongoDB.
      *
-     * @param uuid The player's UUID.
+     * @param uuid       The player's UUID.
      * @param playerName The player's name.
      */
     public void addPlayerToCache(UUID uuid, String playerName) {
         this.cachedPlayers.put(uuid, playerName);
+        this.savePlayerToMongo(uuid, playerName);
+    }
+
+    private void loadDataFromMongo() {
+        for (Document doc : this.collection.find()) {
+            UUID uuid = UUID.fromString(doc.getString("uuid"));
+            String playerName = doc.getString("playerName");
+            this.cachedPlayers.put(uuid, playerName);
+        }
+    }
+
+    /**
+     * Saves a player to MongoDB.
+     *
+     * @param uuid       The player's UUID.
+     * @param playerName The player's name.
+     */
+    private void savePlayerToMongo(UUID uuid, String playerName) {
+        Document document = new Document("uuid", uuid.toString()).append("playerName", playerName);
+        this.collection.replaceOne(new Document("uuid", uuid.toString()), document, new ReplaceOptions().upsert(true));
+    }
+
+    /**
+     * Removes a player from MongoDB.
+     *
+     * @param uuid The player's UUID.
+     */
+    private void removePlayerFromMongo(UUID uuid) {
+        this.collection.deleteOne(new Document("uuid", uuid.toString()));
     }
 }
