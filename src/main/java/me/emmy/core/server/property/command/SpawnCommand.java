@@ -1,9 +1,9 @@
-package me.emmy.core.server.command;
+package me.emmy.core.server.property.command;
 
 import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.util.ActionBarUtil;
 import org.bukkit.entity.Player;
 

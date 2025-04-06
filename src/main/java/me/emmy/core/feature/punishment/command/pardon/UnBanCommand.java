@@ -4,7 +4,7 @@ import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
 import me.emmy.core.database.redis.RedisService;
-import me.emmy.core.database.redis.packet.impl.punishment.PunishmentUndoPacket;
+import me.emmy.core.database.redis.packet.impl.punishment.PunishmentUndoPacketImpl;
 import me.emmy.core.feature.punishment.Punishment;
 import me.emmy.core.feature.punishment.PunishmentService;
 import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
@@ -70,7 +70,7 @@ public class UnBanCommand extends BaseCommand {
         PunishmentService punishmentService = this.flash.getServiceRepository().getService(PunishmentService.class);
         punishmentService.deactivatePunishment(punishment, issuer, targetProfile, reason);
 
-        PunishmentUndoPacket packet = new PunishmentUndoPacket(punishment, targetPlayer.getName());
+        PunishmentUndoPacketImpl packet = new PunishmentUndoPacketImpl(punishment, targetPlayer.getName());
         this.flash.getServiceRepository().getService(RedisService.class).sendPacket(packet);
 
         if (sender instanceof Player) {

@@ -10,7 +10,7 @@ import me.emmy.core.database.redis.RedisService;
 import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.profile.ProfileService;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -5,7 +5,7 @@ import me.emmy.core.feature.punishment.Punishment;
 import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.util.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

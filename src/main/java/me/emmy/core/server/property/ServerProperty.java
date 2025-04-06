@@ -1,4 +1,4 @@
-package me.emmy.core.server;
+package me.emmy.core.server.property;
 
 import lombok.Getter;
 import me.emmy.core.Flash;

@@ -12,17 +12,17 @@ import java.util.Arrays;
  * @project Flash-Core
  * @since 05/04/2025
  */
-public class PunishmentActionPacket extends AbstractRedisPacket {
+public class PunishmentActionPacketImpl extends AbstractRedisPacket {
     private final Punishment punishment;
     private final String target;
 
     /**
-     * Constructor for the PunishmentActionPacket class.
+     * Constructor for the PunishmentActionPacketImpl class.
      *
      * @param punishment the punishment object
      * @param target     the target of the punishment
      */
-    public PunishmentActionPacket(Punishment punishment, String target) {
+    public PunishmentActionPacketImpl(Punishment punishment, String target) {
         this.punishment = punishment;
         this.target = target;
     }

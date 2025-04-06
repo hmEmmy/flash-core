@@ -16,7 +16,8 @@ import me.emmy.core.feature.rank.RankService;
 import me.emmy.core.feature.tag.TagService;
 import me.emmy.core.feature.world.WorldService;
 import me.emmy.core.profile.ProfileService;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.ServerRepository;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.service.ServiceRepository;
 import me.emmy.core.util.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +31,7 @@ public class Flash extends JavaPlugin {
     private ServiceRepository serviceRepository;
     private PlayerIdentityCache playerIdentityCache;
     private PronounsAPI pronounsAPI;
+    private ServerRepository serverRepository;
 
     @Override
     public void onEnable() {
@@ -44,6 +46,7 @@ public class Flash extends JavaPlugin {
         this.registerListeners();
 
         this.playerIdentityCache = new PlayerIdentityCache(this);
+        this.serverRepository = new ServerRepository(this);
 
         Logger.logStartupInfo(this, startTime);
     }

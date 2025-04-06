@@ -4,7 +4,7 @@ import lombok.var;
 import me.emmy.core.Flash;
 import me.emmy.core.api.service.IService;
 import me.emmy.core.feature.world.generator.VoidChunkGeneratorImpl;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.util.CC;
 import me.emmy.core.util.Logger;
 import org.bukkit.*;

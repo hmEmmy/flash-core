@@ -11,17 +11,17 @@ import java.util.Arrays;
  * @project Flash-Core
  * @since 06/04/2025
  */
-public class PunishmentUndoPacket extends AbstractRedisPacket {
+public class PunishmentUndoPacketImpl extends AbstractRedisPacket {
     private final Punishment punishment;
     private final String target;
 
     /**
-     * Constructor for the PunishmentUndoPacket class.
+     * Constructor for the PunishmentUndoPacketImpl class.
      *
      * @param punishment the punishment object
      * @param target     the target of the punishment
      */
-    public PunishmentUndoPacket(Punishment punishment, String target) {
+    public PunishmentUndoPacketImpl(Punishment punishment, String target) {
         this.punishment = punishment;
         this.target = target;
     }

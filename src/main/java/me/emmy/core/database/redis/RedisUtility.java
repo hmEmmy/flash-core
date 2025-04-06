@@ -2,7 +2,7 @@ package me.emmy.core.database.redis;
 
 import lombok.experimental.UtilityClass;
 import me.emmy.core.Flash;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.util.CC;
 import me.emmy.core.util.ClickableUtil;
 import org.bukkit.entity.Player;

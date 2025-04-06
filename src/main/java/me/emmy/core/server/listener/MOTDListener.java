@@ -1,7 +1,7 @@
 package me.emmy.core.server.listener;
 
 import me.emmy.core.Flash;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;

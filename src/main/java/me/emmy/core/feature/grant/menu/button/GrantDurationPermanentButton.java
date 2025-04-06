@@ -8,7 +8,7 @@ import me.emmy.core.feature.grant.menu.GrantConfirmMenu;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
 import me.emmy.core.profile.data.GrantProcessData;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

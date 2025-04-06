@@ -23,8 +23,10 @@ import me.emmy.core.feature.rank.command.impl.permission.RankRemovePermissionCom
 import me.emmy.core.feature.tag.command.TagCommand;
 import me.emmy.core.feature.world.command.WorldCommand;
 import me.emmy.core.feature.world.command.impl.*;
-import me.emmy.core.server.command.SetSpawnCommand;
-import me.emmy.core.server.command.SpawnCommand;
+import me.emmy.core.server.command.impl.ServerViewCommand;
+import me.emmy.core.server.command.impl.ServerListCommand;
+import me.emmy.core.server.property.command.SetSpawnCommand;
+import me.emmy.core.server.property.command.SpawnCommand;
 
 /**
  * @author Emmy
@@ -78,6 +80,9 @@ public class CommandService implements IService {
 
         new BanCommand();
         new UnBanCommand();
+
+        new ServerListCommand();
+        new ServerViewCommand();
     }
 
     @Override

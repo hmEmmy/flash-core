@@ -4,13 +4,13 @@ import me.emmy.core.api.command.BaseCommand;
 import me.emmy.core.api.command.CommandArgs;
 import me.emmy.core.api.command.annotation.CommandData;
 import me.emmy.core.database.redis.RedisService;
-import me.emmy.core.database.redis.packet.impl.punishment.PunishmentActionPacket;
+import me.emmy.core.database.redis.packet.impl.punishment.PunishmentActionPacketImpl;
 import me.emmy.core.feature.punishment.Punishment;
 import me.emmy.core.feature.punishment.PunishmentService;
 import me.emmy.core.feature.punishment.enums.EnumPunishmentType;
 import me.emmy.core.profile.Profile;
 import me.emmy.core.profile.ProfileService;
-import me.emmy.core.server.ServerProperty;
+import me.emmy.core.server.property.ServerProperty;
 import me.emmy.core.util.ActionBarUtil;
 import me.emmy.core.util.CC;
 import org.bukkit.OfflinePlayer;
@@ -79,7 +79,7 @@ public class BanCommand extends BaseCommand {
         );
         punishmentService.addActivePunishment(punishment, targetProfile);
 
-        PunishmentActionPacket packet = new PunishmentActionPacket(punishment, targetPlayer.getName());
+        PunishmentActionPacketImpl packet = new PunishmentActionPacketImpl(punishment, targetPlayer.getName());
         this.flash.getServiceRepository().getService(RedisService.class).sendPacket(packet);
 
         if (sender instanceof Player) {
