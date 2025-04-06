@@ -31,9 +31,9 @@ public class ServerMonitor {
      */
     public void broadcastOnlineStatus(String serverName, boolean online) {
         if (online) {
-            Bukkit.getConsoleSender().sendMessage(CC.translate("&7[&6ServerMonitor&7] &fThe server &8" + serverName + " &7has booted up and is now open to join!"));
+            Bukkit.getConsoleSender().sendMessage(CC.translate(this.prefix + "&7The server &8" + serverName + " &7is now online and ready to join!"));
         } else {
-            Bukkit.getConsoleSender().sendMessage(CC.translate("&7[&6ServerMonitor&7] &fThe server &8" + serverName + " &7has shut down and is now closed to join!"));
+            Bukkit.getConsoleSender().sendMessage(CC.translate(this.prefix + "&7The server &8" + serverName + " &7is now offline!"));
         }
     }
 }
