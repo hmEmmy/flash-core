@@ -20,7 +20,7 @@ public class ServerMonitor {
      */
     public ServerMonitor(Flash plugin) {
         this.plugin = plugin;
-        prefix = CC.translate("&7[&6ServerMonitor&7] &f");
+        this.prefix = CC.translate("&7[&6ServerMonitor&7] &f");
     }
 
     /**
