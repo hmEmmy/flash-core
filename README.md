@@ -42,13 +42,3 @@ You are allowed to **fork, modify, and resell** this plugin under the following 
 ## Contribution Guidelines
 
 > While this project is no longer actively maintained, **community contributions are welcome**. If you would like to contribute, please fork the repository, make your changes, and submit a pull request. All contributions are reviewed and will be considered for inclusion in the project.
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-By using, modifying, or redistributing this plugin, you agree to comply with these rules and acknowledge the original work of the author.
