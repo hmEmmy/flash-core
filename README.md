@@ -1,21 +1,55 @@
-## ⚡ Server Core - Server Management Plugin (Spigot 1.8.8) ⚡
-This **Server Core** offers a high-performance, custom rank/management system built from scratch for Minecraft servers. It ensures blazing fast profile management, with a focus on scalability and efficiency. Designed for ease of use and flexibility, this core provides powerful tools.
+# Flash Core – Open Source Server Management (Spigot 1.8.8)
 
-### 📝 Usage 📝
-By purchasing and using this Server Core, you agree to the following terms:
+**Flash Core** is an open-source server management plugin for Spigot 1.8.8. It provides a clean and modular codebase, ideal for developers looking to create their own server core or explore plugin architecture.
 
-1. **Paid Resource**: This plugin is a **paid resource**. By using it, you acknowledge that you have purchased or acquired it legally from an authorized source.
-2. **Non-Redistribution**: You agree not to redistribute, resell, or share this plugin with any third parties without prior written consent from the developer. This includes but is not limited to sharing source code, configurations, or any other part of the plugin.
-3. **Usage Rights**: The purchase grants you a license to use this plugin for your personal or commercial Minecraft servers. The license is **non-exclusive**, **non-transferable**, and **revocable** at the discretion of the developer.
-4. **Server Performance**: This plugin is designed to enhance server performance and provide powerful rank management features. However, server performance may be influenced by the resources available to the server, including but not limited to hardware, network speed, and configuration settings.
-5. **No Warranty**: The developer provides this plugin "as is" without warranties of any kind, either express or implied, including but not limited to the implied warranties of merchantability or fitness for a particular purpose. The developer is not responsible for any issues that arise from the use of the plugin.
-6. **Support & Updates**: Support and updates are available as part of the purchase. However, support is **limited to technical issues directly related to the plugin**. The developer reserves the right to determine the level of support offered. Updates may be released periodically to fix bugs, improve performance, or add new features.
-7. **Refund Policy**: Refunds are generally not provided, except in cases where the plugin is significantly defective or fails to meet the advertised functionality. Please contact the developer with details of any issues prior to requesting a refund.
-8. **Modification and Customization**: You are free to modify the plugin for your own use, but you must not distribute modified versions without written consent from the developer.
-9. **Liability**: By using this plugin, you agree to hold the developer harmless from any claims, damages, or losses that may arise from its use.
-10. **Termination**: The developer reserves the right to terminate your license and access to the plugin at any time if you violate these terms of service.
-By using this Server Core, you agree to all the terms and conditions outlined above. If you do not agree, do not use this plugin.
+This project is **no longer actively developed** by the original author, but **community contributions are welcome**.
 
-### 💡 List of features to be added 💡
-~~World Management (world teleport, create, delete - multiverse-core alike)~~
+---
 
+## Purpose
+
+> Flash Core serves as a foundation for building custom server cores and understanding core plugin design. While it is no longer under active development, contributions are welcome to improve or extend the code.
+
+---
+
+## Disclaimer
+
+> This project is provided **as-is** without warranties. There are no guarantees of ongoing updates, but contributions and support are encouraged.
+
+---
+
+## Usage
+
+You are allowed to **fork, modify, and resell** this plugin under the following conditions:
+
+### 1. **Do Not Remove Credits**
+   - You must retain the **original credit** to the author ("Emmy") in the plugin. This includes:
+     - Keeping the **main command** as it is (although you may change the design or functionality, the command name and structure must remain intact).
+     - Retaining the **file headers** in all files that contain them, including comments that credit the original author.
+     - Preserving the **repository link** to the original source. If redistributing, you must keep the link to this repository in the plugin's documentation or associated files.
+     - Keeping the **author section** in the `plugin.yml`. You are allowed to **add** your own aliases, but **you cannot remove** "Emmy" as the original author.
+
+### 2. **No Redistribution of Modified Versions Without Proper Credit**
+   > If you modify or customize this plugin, **you may not redistribute the modified version** without keeping the above credits intact. The modified version must also include a statement acknowledging the original work.
+
+### 3. **Main Command and Functionality**
+   - You are free to modify the internal workings of the plugin and add additional features, but the **main command** and **plugin structure** should not be renamed or restructured in a way that removes the original credit.
+
+### 4. **Exceptions**
+   > If you ask me nicely, we can discuss exceptions on Discord: [discord.com/invite/eT4B65k5E4](https://discord.com/invite/eT4B65k5E4).
+
+---
+
+## Contribution Guidelines
+
+> While this project is no longer actively maintained, **community contributions are welcome**. If you would like to contribute, please fork the repository, make your changes, and submit a pull request. All contributions are reviewed and will be considered for inclusion in the project.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+By using, modifying, or redistributing this plugin, you agree to comply with these rules and acknowledge the original work of the author.
