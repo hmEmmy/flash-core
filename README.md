@@ -24,7 +24,6 @@ You are allowed to **fork, modify, and resell** this plugin under the following 
 
 ### 1. **Do Not Remove Credits**
    - You must retain the **original credit** to the author ("Emmy") in the plugin. This includes:
-     - Keeping the **main command** as it is (although you may change the design or functionality, the command name and structure must remain intact).
      - Retaining the **file headers** in all files that contain them, including comments that credit the original author.
      - Preserving the **repository link** to the original source. If redistributing, you must keep the link to this repository in the plugin's documentation or associated files.
      - Keeping the **author section** in the `plugin.yml`. You are allowed to **add** your own aliases, but **you cannot remove** "Emmy".
