@@ -1,4 +1,4 @@
-# Flash Core – Open Source Server Management (Spigot 1.8.8)
+# Flash Core
 
 **Flash Core** is an open-source server management plugin for Spigot 1.8.8. It provides a clean and modular codebase, ideal for developers looking to create their own server core or explore plugin architecture.
 
